@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -88,6 +89,17 @@
             app:layout_constraintEnd_toEndOf="@+id/RegisterInLoginButton"
             app:layout_constraintStart_toStartOf="@+id/RegisterInLoginButton"
             app:layout_constraintTop_toTopOf="@+id/RegisterInLoginButton"/>
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Olvidaste tu contraseña?"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RegisterInLoginButton"
+            app:layout_constraintVertical_bias="0.127" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

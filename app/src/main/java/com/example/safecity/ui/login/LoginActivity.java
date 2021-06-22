@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button RegisterButton;
     private ProgressBar progressBar;
     private SafePreferences preferences;
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         progressBar = findViewById(R.id.progressBar);
         RegisterButton = findViewById(R.id.RegisterInLoginButton);
-
+        forgotPassword = findViewById(R.id.forgotPassword);
         //Metodo normal
         /*loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         //Metodo lambda
         loginButton.setOnClickListener(v -> onLoginClicked());
         RegisterButton.setOnClickListener(v -> onRegisterClicked());
+        forgotPassword.setOnClickListener(v -> onForgot());
         textUsernameLayout
                 .getEditText()
                 .addTextChangedListener(createTextWatcher(textUsernameLayout));
@@ -63,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
         textPasswordInput
                 .getEditText()
                 .addTextChangedListener(createTextWatcher(textPasswordInput));
+    }
+
+    private void onForgot() {
+        Intent intent = new Intent(this,LosspasswordActivity.class);
+        startActivity(intent);
     }
 
     private void onRegisterClicked() {
