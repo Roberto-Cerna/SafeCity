@@ -11,4 +11,5 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="dni_o_email">DNI o Email</string>
+    <string name="title_activity_report_maps">Map</string>
 </resources>
