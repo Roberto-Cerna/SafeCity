@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout textUsernameLayout;
     private TextInputLayout textPasswordInput;
     private Button loginButton;
+    private Button RegisterButton;
     private ProgressBar progressBar;
     private SafePreferences preferences;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         textPasswordInput = findViewById(R.id.textPasswordInput);
         loginButton = findViewById(R.id.loginButton);
         progressBar = findViewById(R.id.progressBar);
+        RegisterButton = findViewById(R.id.RegisterInLoginButton);
 
         //Metodo normal
         /*loginButton.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Metodo lambda
         loginButton.setOnClickListener(v -> onLoginClicked());
-
+        RegisterButton.setOnClickListener(v -> onRegisterClicked());
         textUsernameLayout
                 .getEditText()
                 .addTextChangedListener(createTextWatcher(textUsernameLayout));
@@ -61,6 +63,11 @@ public class LoginActivity extends AppCompatActivity {
         textPasswordInput
                 .getEditText()
                 .addTextChangedListener(createTextWatcher(textPasswordInput));
+    }
+
+    private void onRegisterClicked() {
+        Intent intent = new Intent(this,RegisterActivity.class );
+        startActivity(intent);
     }
 
     private TextWatcher createTextWatcher(TextInputLayout textPasswordInput) {
