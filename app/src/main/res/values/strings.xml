@@ -18,4 +18,8 @@
     <string name="emergency_contacts">Contactos de Emergencia</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_dni_email">Ingrese su correo electrónico o su DNI para buscar su cuenta</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="code">Code</string>
 </resources>
