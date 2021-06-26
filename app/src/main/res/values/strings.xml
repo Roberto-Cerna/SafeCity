@@ -22,4 +22,9 @@
     <string name="cancelar">Cancelar</string>
     <string name="siguiente">Siguiente</string>
     <string name="code">Code</string>
+    <string name="ingrese_su_nueva_contrase_a">Ingrese su nueva contraseña</string>
+    <string name="contrase_a">Password</string>
+    <string name="new_password">Confirm password</string>
+    <string name="confirmar">Confirmar</string>
+
 </resources>
