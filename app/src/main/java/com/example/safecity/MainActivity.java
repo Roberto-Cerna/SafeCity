@@ -48,33 +48,14 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_emergency_contacts,
+                R.id.nav_recent_reports)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /*navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                int id = item.getItemId();
-
-                switch(id) {
-                    case R.id.nav_profile:
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivity(i);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Menu option not implemented!");
-                }
-
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
-
-                return true;
-            }
-        });*/
     }
 
     @Override

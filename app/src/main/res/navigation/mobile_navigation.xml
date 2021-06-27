@@ -14,6 +14,24 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.safecity.ui.profile.ProfileFragment"
-        android:label="Profile"
+        android:label="Perfil"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_emergency_contacts"
+        android:name="com.example.safecity.ui.emergency_contacts.EmergencyContactsFragment"
+        android:label="Contactos de Emergencia"
+        tools:layout="@layout/emergency_contacts_fragment" />
+
+    <fragment
+        android:id="@+id/nav_recent_reports"
+        android:name="com.example.safecity.ui.recent_reports.RecentReportsFragment"
+        android:label="Incidencias recientes"
+        tools:layout="@layout/recent_reports_fragment" />
+
+    <fragment
+        android:id="@+id/nav_report_maps"
+        android:name="com.example.safecity.ui.report_maps.ReportMapsFragment"
+        android:label="Mapa de Incidencias"
+        tools:layout="@layout/fragment_report_maps" />
 </navigation>
