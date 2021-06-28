@@ -1,19 +1,13 @@
 package com.example.safecity.ui.login;
 
-import com.example.safecity.ui.login.LoginActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.safecity.MainActivity;
 import com.example.safecity.R;
 import com.google.android.material.textfield.TextInputLayout;
 
