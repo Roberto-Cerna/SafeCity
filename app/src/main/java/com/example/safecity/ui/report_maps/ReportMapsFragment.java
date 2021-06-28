@@ -1,6 +1,5 @@
 package com.example.safecity.ui.report_maps;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,14 +22,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class ReportMapsFragment extends Fragment {
 
@@ -64,8 +58,8 @@ public class ReportMapsFragment extends Fragment {
                     }
                     userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
-                            .position(userLatLng).icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                .position(userLatLng).icon(BitmapDescriptorFactory
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 }
 
                 @Override
@@ -78,11 +72,13 @@ public class ReportMapsFragment extends Fragment {
             if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                userLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                currentLocationMarker = googleMap.addMarker(new MarkerOptions()
-                        .position(userLatLng).icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 16));
+                if(lastKnownLocation != null) {
+                    userLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                    currentLocationMarker = googleMap.addMarker(new MarkerOptions()
+                            .position(userLatLng).icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 16));
+                }
             }
             else {
                 ActivityCompat.requestPermissions(requireActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
