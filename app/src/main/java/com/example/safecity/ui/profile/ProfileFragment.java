@@ -10,18 +10,28 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.safecity.databinding.FragmentProfileBinding;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
-    private String name = "";
-    private String last_name = "";
-    private String number = "";
-    private String email = "";
+    //Datos del perfil
+    private String profileName = "Piero Violeta";
+    private String profileEmail = "piero@bajo.pe";
+    private String profilePhone = "999888777";
 
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
+
+    private Button updateProfileButton;
+    private Button saveProfileButton;
+    private TextInputLayout nameProfileTextField;
+    private TextInputLayout emailProfileTextField;
+    private TextInputLayout phoneProfileTextField;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,10 +42,33 @@ public class ProfileFragment extends Fragment {
         View root = binding.getRoot();
 
         //final TextView textView = binding.textProfile;
+        updateProfileButton = binding.updateProfileButton;
+        saveProfileButton = binding.saveProfileButton;
+        nameProfileTextField = binding.nameProfileTextField;
+        emailProfileTextField = binding.emailProfileTextField;
+        phoneProfileTextField = binding.phoneProfileTextField;
+
         profileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 //textView.setText(s);
+            }
+        });
+
+        setProfileInfo();
+
+        updateProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatingProfile(true);
+            }
+        });
+
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatingProfile(false);
+                Toast.makeText(getActivity(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -46,5 +79,25 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void setProfileInfo() {
+        Objects.requireNonNull(nameProfileTextField.getEditText()).setText(profileName);
+        Objects.requireNonNull(emailProfileTextField.getEditText()).setText(profileEmail);
+        Objects.requireNonNull(phoneProfileTextField.getEditText()).setText(profilePhone);
+    }
+
+    public void updatingProfile(boolean isUpdating) {
+        nameProfileTextField.setEnabled(isUpdating);
+        emailProfileTextField.setEnabled(isUpdating);
+        phoneProfileTextField.setEnabled(isUpdating);
+        if(isUpdating) {
+            saveProfileButton.setVisibility(View.VISIBLE);
+            updateProfileButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            saveProfileButton.setVisibility(View.INVISIBLE);
+            updateProfileButton.setVisibility(View.VISIBLE);
+        }
     }
 }

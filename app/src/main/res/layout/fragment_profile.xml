@@ -9,23 +9,24 @@
     <ImageView
         android:id="@+id/profileImageView"
         android:layout_width="412dp"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="31dp"
         android:scaleType="centerInside"
-        android:src="@drawable/profile_picture"
-        app:layout_constraintBottom_toTopOf="@+id/nameTextField"
+        android:src="@drawable/profile_picture2"
+        app:layout_constraintBottom_toTopOf="@+id/nameProfileTextField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile_picture2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameTextField"
+        android:id="@+id/nameProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
         android:layout_marginBottom="20dp"
-        android:hint="Nombre Completo"
+        android:hint="Nombre"
         android:enabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/emailTextField"
+        app:layout_constraintBottom_toTopOf="@+id/emailProfileTextField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
@@ -37,13 +38,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailTextField"
+        android:id="@+id/emailProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
         android:layout_marginBottom="20dp"
         android:hint="Correo Electrónico"
         android:enabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/phoneTextField"
+        app:layout_constraintBottom_toTopOf="@+id/phoneProfileTextField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
@@ -56,13 +57,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phoneTextField"
+        android:id="@+id/phoneProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
-        android:hint="Teléfono"
+        android:layout_marginBottom="50dp"
         android:enabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/passwordTextField"
+        android:hint="Teléfono"
+        app:layout_constraintBottom_toTopOf="@+id/updateProfileButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
@@ -74,31 +75,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordTextField"
-        android:layout_width="325dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
-        android:hint="Contraseña"
-        android:enabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/updateProfileButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/updateProfileButton"
         android:layout_width="325dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
         android:text="Actualizar Información"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/saveProfileButton"
+        android:layout_width="325dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="50dp"
+        android:text="Guardar Información"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

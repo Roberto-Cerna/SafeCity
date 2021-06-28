@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/nav_recent_reports"
         android:name="com.example.safecity.ui.recent_reports.RecentReportsFragment"
-        android:label="Incidencias recientes"
+        android:label="Reportes Recientes"
         tools:layout="@layout/recent_reports_fragment" />
 
     <fragment

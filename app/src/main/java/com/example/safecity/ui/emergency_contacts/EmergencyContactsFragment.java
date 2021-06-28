@@ -13,15 +13,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
 
+import com.example.safecity.R;
 import com.example.safecity.databinding.EmergencyContactsFragmentBinding;
+
+import java.util.ArrayList;
 
 public class EmergencyContactsFragment extends Fragment {
 
     private EmergencyContactsViewModel emergencyContactsViewModel;
     private EmergencyContactsFragmentBinding binding;
 
+    public Button addNewContactButton;
+    public ArrayList<EmergencyContact> emergencyContacts = new ArrayList<>();
+    public EmergencyContactsListAdapter emergencyContactsListAdapter;
+    public ListView emergencyContactsListView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -30,7 +37,21 @@ public class EmergencyContactsFragment extends Fragment {
         binding = EmergencyContactsFragmentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Button addNewContactButton = (Button) binding.addContactButton;
+        addNewContactButton = binding.addContactButton;
+        emergencyContactsListView = binding.emergenyContactsListView;
+
+        //Test list view
+        emergencyContacts.add(new EmergencyContact("Edwin Yauyo", "987654321"));
+        emergencyContacts.add(new EmergencyContact("Donald Kun", "999999999"));
+        emergencyContacts.add(new EmergencyContact("Edwin Yauyo", "987654321"));
+        emergencyContacts.add(new EmergencyContact("Donald Kun", "999999999"));
+        emergencyContacts.add(new EmergencyContact("Edwin Yauyo", "987654321"));
+        emergencyContacts.add(new EmergencyContact("Donald Kun", "999999999"));
+        emergencyContacts.add(new EmergencyContact("Edwin Yauyo", "987654321"));
+        emergencyContacts.add(new EmergencyContact("Donald Kun", "999999999"));
+        emergencyContactsListAdapter = new EmergencyContactsListAdapter(requireContext(),
+                R.layout.list_item_emergency_contact, emergencyContacts);
+        emergencyContactsListView.setAdapter(emergencyContactsListAdapter);
 
         //final TextView textView = binding.textEmergency;
         emergencyContactsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
