@@ -18,11 +18,13 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
+import com.example.safecity.data.user.User;
+
 public class ProfileFragment extends Fragment {
     //Datos del perfil
-    private String profileName = "Piero Violeta";
-    private String profileEmail = "piero@bajo.pe";
-    private String profilePhone = "999888777";
+    private String profileName = User.name;
+    private String profileEmail = User.email;
+    private String profilePhone = User.phone;
 
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;

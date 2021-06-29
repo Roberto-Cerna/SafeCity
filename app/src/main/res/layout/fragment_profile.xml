@@ -23,9 +23,11 @@
         android:id="@+id/nameProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:hint="Nombre"
         android:enabled="false"
+        android:hint="Nombre"
         app:layout_constraintBottom_toTopOf="@+id/emailProfileTextField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -41,9 +43,11 @@
         android:id="@+id/emailProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:hint="Correo Electrónico"
         android:enabled="false"
+        android:hint="Correo Electrónico"
         app:layout_constraintBottom_toTopOf="@+id/phoneProfileTextField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -52,7 +56,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +64,8 @@
         android:id="@+id/phoneProfileTextField"
         android:layout_width="325dp"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="50dp"
         android:enabled="false"
         android:hint="Teléfono"
@@ -77,8 +83,10 @@
 
     <Button
         android:id="@+id/updateProfileButton"
-        android:layout_width="325dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="50dp"
         android:text="Actualizar Información"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,8 +96,10 @@
 
     <Button
         android:id="@+id/saveProfileButton"
-        android:layout_width="325dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="50dp"
         android:text="Guardar Información"
         android:visibility="invisible"

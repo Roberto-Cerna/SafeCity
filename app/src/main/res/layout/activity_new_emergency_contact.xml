@@ -50,6 +50,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="60dp"
+        android:onClick="saveNewEmergencyContact"
         android:text="Guardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cancelNewContactButton"
@@ -61,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="100dp"
+        android:onClick="cancelNewEmergencyContact"
         android:text="@string/cancelar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newContactNumberTextField" />

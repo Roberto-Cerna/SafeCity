@@ -3,6 +3,7 @@ package com.example.safecity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,11 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.safecity.databinding.ActivityMainBinding;
 
+import com.example.safecity.data.user.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    public TextView headerNameTextView;
+    public TextView headerEmailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        headerNameTextView = navigationView.getHeaderView(0).findViewById(R.id.headerNameTextView);
+        headerEmailTextView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailTextView);
+        headerNameTextView.setText(User.name);
+        headerEmailTextView.setText(User.email);
 
     }
 

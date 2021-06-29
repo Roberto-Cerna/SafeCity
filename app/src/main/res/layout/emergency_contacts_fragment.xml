@@ -24,11 +24,13 @@
         android:id="@+id/addContactButton"
         android:layout_width="125dp"
         android:layout_height="55dp"
+        android:layout_marginStart="81dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="40dp"
         android:text="Agregar contacto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dropContactButton" />
 
     <Button
         android:id="@+id/dropContactButton"
