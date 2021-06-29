@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/profile_picture" />
 
     <TextView
-        android:id="@+id/emergencyContactListItemName"
+        android:id="@+id/reportListItemName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_toEndOf="@id/emergencyContactListItemIcon"
@@ -33,10 +33,10 @@
         tools:text="Edwin Yauyo" />
 
     <TextView
-        android:id="@+id/emergencyContactListItemPhone"
+        android:id="@+id/reportListItemType"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/emergencyContactListItemName"
+        android:layout_below="@id/reportListItemName"
         android:layout_gravity="center_vertical"
         android:layout_toEndOf="@id/emergencyContactListItemIcon"
         android:maxLines="2"

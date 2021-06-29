@@ -39,8 +39,8 @@ public class EmergencyContactsListAdapter extends ArrayAdapter<EmergencyContact>
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView emergencyContactListItemName = convertView.findViewById(R.id.emergencyContactListItemName);
-        TextView emergencyContactListItemPhone = convertView.findViewById(R.id.emergencyContactListItemPhone);
+        TextView emergencyContactListItemName = convertView.findViewById(R.id.reportListItemName);
+        TextView emergencyContactListItemPhone = convertView.findViewById(R.id.reportListItemType);
 
         emergencyContactListItemName.setText(name);
         emergencyContactListItemPhone.setText(phone);
