@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     RegisterForm();
-
+                    finish();
                 }
             }
         });
@@ -47,8 +47,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void RegisterForm(){
+        
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        
     }
 
 }

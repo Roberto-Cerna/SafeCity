@@ -49,6 +49,7 @@ public class NewPassword extends AppCompatActivity {
         }
         else{
             ChangePassword();
+            finish();
         }
 
     }
@@ -56,6 +57,7 @@ public class NewPassword extends AppCompatActivity {
     private void ChangePassword() {
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
+
     }
 
 
