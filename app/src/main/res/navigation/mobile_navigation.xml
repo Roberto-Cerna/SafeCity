@@ -55,10 +55,20 @@
         android:id="@+id/nav_report_feature"
         android:name="com.example.safecity.ui.incident_report.ReportFeatureFragment"
         android:label="Tipo de Delito"
-        tools:layout="@layout/fragment_report_feature" />
+        tools:layout="@layout/fragment_report_feature" >
+        <action
+            android:id="@+id/action_nav_report_feature_to_nav_report_form"
+            app:destination="@id/nav_report_form" />
+    </fragment>
     <fragment
-        android:id="@+id/reportFormFragment"
-        android:name="com.example.safecity.ReportFormFragment"
-        android:label="fragment_report_form"
-        tools:layout="@layout/fragment_report_form" />
+        android:id="@+id/nav_report_form"
+        android:name="com.example.safecity.ui.incident_report.ReportFormFragment"
+        android:label="Formulario de Denuncia"
+        tools:layout="@layout/fragment_report_form" >
+        <action
+            android:id="@+id/action_reportFormFragment_to_nav_home"
+            app:destination="@id/nav_home"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

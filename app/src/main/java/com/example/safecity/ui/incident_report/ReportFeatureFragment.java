@@ -96,6 +96,13 @@ public class ReportFeatureFragment extends Fragment {
 
         final NavController navController = Navigation.findNavController(view);
 
+        Button agresionButton = view.findViewById(R.id.agresionButton);
+        Button desaparecidoButton = view.findViewById(R.id.desaparecidoButton);
+        Button incendioButton = view.findViewById(R.id.incendioButton);
+        Button maltratoButton= view.findViewById(R.id.maltratoButton);
+        Button roboButton = view.findViewById(R.id.roboButton);
+        Button otrosCasosButton = view.findViewById(R.id.otrosCasosButton);
+
         ImageView agresionImage = view.findViewById(R.id.agresionImage);
         agresionImage.setImageResource(R.drawable.agresion);
 
@@ -144,12 +151,21 @@ public class ReportFeatureFragment extends Fragment {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(otroCasosImage);
 
-//        View card1 = view.findViewById(R.id.card1);
-//        Button yourselfButton = view.findViewById(R.id.yourselfButton);
-//        Button anotherPersonButton = view.findViewById(R.id.anotherPersonButton);
-//
-//        yourselfButton.setOnClickListener(v -> onIncidentReport(navController, "mi"));
-//        anotherPersonButton.setOnClickListener(v -> onIncidentReport(navController, "otra persona"));
+        agresionButton.setOnClickListener(v -> onReportForm(navController, "Agresion"));
+        desaparecidoButton.setOnClickListener(v -> onReportForm(navController, "Persona Perdida"));
+        incendioButton.setOnClickListener(v -> onReportForm(navController, "Incendio"));
+        maltratoButton.setOnClickListener(v -> onReportForm(navController, "Maltrato Familiar"));
+        roboButton.setOnClickListener(v -> onReportForm(navController, "Robo"));
+        otrosCasosButton.setOnClickListener(v -> onReportForm(navController, "Otros Casos"));
 
+    }
+
+    private void onReportForm(NavController navController, String feature) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("key", feature);
+        getParentFragmentManager().setFragmentResult("key",bundle);
+
+        navController.navigate(R.id.nav_report_form);
     }
 }

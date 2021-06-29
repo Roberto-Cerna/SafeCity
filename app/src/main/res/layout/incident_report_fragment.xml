@@ -11,14 +11,12 @@
 
     <TextView
         android:id="@+id/reportText"
-        style="@style/TextAppearance.MaterialComponents.Body1"
+        style="@style/TextAppearance.MaterialComponents.Headline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
         android:text="¿A quién le sucedió?"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="2"

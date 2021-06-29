@@ -1,12 +1,25 @@
-package com.example.safecity;
+package com.example.safecity.ui.incident_report;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.safecity.R;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +37,7 @@ public class ReportFormFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    TextView textFeatureReportInput;
     public ReportFormFragment() {
         // Required empty public constructor
     }
@@ -49,10 +63,17 @@ public class ReportFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle ) {
+                String reportFeature = bundle.getString("key");
+
+                Log.i(getTag(), reportFeature);
+                textFeatureReportInput.setText(reportFeature);
+            }
+        });
+
     }
 
     @Override
@@ -60,5 +81,28 @@ public class ReportFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_form, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final NavController navController = Navigation.findNavController(view);
+
+        textFeatureReportInput = view.findViewById(R.id.textFeatureReportInput);
+
+        Button denunciarButton = view.findViewById(R.id.reportButton);
+
+        denunciarButton.setOnClickListener(v -> onReport(navController));
+    }
+
+    private void onReport(NavController navController) {
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Formulario de Denuncia")
+                .setMessage("Se envió su denuncia correctamente.")
+                .setPositiveButton("OK", ((dialog, which) -> dialog.dismiss()))
+                .show();
+        navController.navigate(R.id.nav_home);
+
     }
 }
