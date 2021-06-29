@@ -1,14 +1,14 @@
 package com.example.safecity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.safecity.ui.SafePreferences;
+import com.example.safecity.ui.login.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void onLogout(SafePreferences preferences) {
         preferences.setLoggedIn(false);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
         finish();
     }
 
