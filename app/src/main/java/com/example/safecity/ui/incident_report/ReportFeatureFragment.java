@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -27,15 +28,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ReportFeatureFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private ProgressBar progressBar;
     // URl image
 
     public static final String BASE_URL = "https://images.unsplash.com/";
@@ -67,20 +60,14 @@ public class ReportFeatureFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static ReportFeatureFragment newInstance(String param1, String param2) {
         ReportFeatureFragment fragment = new ReportFeatureFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -99,52 +86,47 @@ public class ReportFeatureFragment extends Fragment {
         Button agresionButton = view.findViewById(R.id.agresionButton);
         Button desaparecidoButton = view.findViewById(R.id.desaparecidoButton);
         Button incendioButton = view.findViewById(R.id.incendioButton);
-        Button maltratoButton= view.findViewById(R.id.maltratoButton);
+        Button maltratoButton = view.findViewById(R.id.maltratoButton);
         Button roboButton = view.findViewById(R.id.roboButton);
         Button otrosCasosButton = view.findViewById(R.id.otrosCasosButton);
 
         ImageView agresionImage = view.findViewById(R.id.agresionImage);
-        agresionImage.setImageResource(R.drawable.agresion);
+        ImageView desaparecidoImage = view.findViewById(R.id.desaparecidoImage);
+        ImageView incendioImage = view.findViewById(R.id.incendioImage);
+        ImageView maltratoImage = view.findViewById(R.id.maltratoImage);
+        ImageView roboImage = view.findViewById(R.id.roboImage);
+        ImageView otroCasosImage = view.findViewById(R.id.otroCasosImage);
+
 
         Glide.with(this)
                 .load(agresion_URL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(agresionImage);
 
-        ImageView desaparecidoImage = view.findViewById(R.id.desaparecidoImage);
-        desaparecidoImage.setImageResource(R.drawable.desaparecido);
 
         Glide.with(this)
                 .load(desaparecido_URL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(desaparecidoImage);
 
-        ImageView incendioImage = view.findViewById(R.id.incendioImage);
-        incendioImage.setImageResource(R.drawable.incendio);
 
         Glide.with(this)
                 .load(incendio_URL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(incendioImage);
 
-        ImageView maltratoImage = view.findViewById(R.id.maltratoImage);
-        maltratoImage.setImageResource(R.drawable.maltrato);
 
         Glide.with(this)
                 .load(maltrato_URL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(maltratoImage);
 
-        ImageView roboImage = view.findViewById(R.id.roboImage);
-        roboImage.setImageResource(R.drawable.robo);
 
         Glide.with(this)
                 .load(robo_URL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(roboImage);
 
-        ImageView otroCasosImage = view.findViewById(R.id.otroCasosImage);
-        otroCasosImage.setImageResource(R.drawable.otros_casos);
 
         Glide.with(this)
                 .load(otroCasos_URL)
@@ -159,6 +141,7 @@ public class ReportFeatureFragment extends Fragment {
         otrosCasosButton.setOnClickListener(v -> onReportForm(navController, "Otros Casos"));
 
     }
+
 
     private void onReportForm(NavController navController, String feature) {
 
