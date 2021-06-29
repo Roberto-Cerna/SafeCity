@@ -22,7 +22,7 @@
             android:title="@string/emergency_contacts" />
         <item
             android:id="@+id/nav_recent_reports"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_add_alert_24"
             android:title="@string/later_reports" />
     </group>
 </menu>
