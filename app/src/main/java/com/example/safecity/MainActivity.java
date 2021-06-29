@@ -1,10 +1,14 @@
 package com.example.safecity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.safecity.ui.SafePreferences;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -25,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public TextView headerNameTextView;
     public TextView headerEmailTextView;
-
+    private SafePreferences preferences;
+    private Button logoutBotton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferences = new SafePreferences(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -59,7 +66,15 @@ public class MainActivity extends AppCompatActivity {
         headerNameTextView.setText(User.name);
         headerEmailTextView.setText(User.email);
 
+        logoutBotton = navigationView.findViewById(R.id.logoutButton);
+        logoutBotton.setOnClickListener(v -> onLogout(preferences));
     }
+
+    private void onLogout(SafePreferences preferences) {
+        preferences.setLoggedIn(false);
+        finish();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
