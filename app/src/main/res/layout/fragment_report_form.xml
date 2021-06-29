@@ -15,30 +15,28 @@
         <TextView
             android:id="@+id/textFeatureReport"
             style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:text="Tipo de Incidencia:"
-            app:layout_constraintBottom_toTopOf="@id/textFeatureReportInput"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textDetailInput"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/textFeatureReportInput"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toTopOf="@id/textDetailInput"
+            app:layout_constraintStart_toEndOf="@+id/textFeatureReport"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFeatureReport" />
+            app:layout_constraintBottom_toBottomOf="@+id/textFeatureReport"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textDetailInput"
@@ -52,7 +50,7 @@
             app:layout_constraintBottom_toTopOf="@id/textTest"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textFeatureReportInput">
+            app:layout_constraintTop_toBottomOf="@id/textFeatureReport">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/detailInput"

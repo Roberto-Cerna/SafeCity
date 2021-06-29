@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
         headerNameTextView = navigationView.getHeaderView(0).findViewById(R.id.headerNameTextView);
         headerEmailTextView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailTextView);
         headerNameTextView.setText(User.name);
