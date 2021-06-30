@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout textRegisterUsernameLayout;
     private TextInputLayout textRegisterPasswordInput;
-    private Button RegisterButton;
+    private Button RegisterButton,cancelRegisterButton;
     private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
         textRegisterPasswordInput = findViewById(R.id.textRegisterPasswordInput);
         RegisterButton = findViewById(R.id.RegisterButton);
         progressBar = findViewById(R.id.progressBar);
+        cancelRegisterButton = findViewById(R.id.cancelRegisterButton);
 
         RegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
                     RegisterForm();
                     finish();
                 }
+            }
+        });
+        cancelRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
 
