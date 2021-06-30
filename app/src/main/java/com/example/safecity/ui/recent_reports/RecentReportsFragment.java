@@ -7,17 +7,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.safecity.R;
-import com.example.safecity.databinding.EmergencyContactsFragmentBinding;
 import com.example.safecity.databinding.RecentReportsFragmentBinding;
-import com.example.safecity.ui.emergency_contacts.EmergencyContact;
-import com.example.safecity.ui.emergency_contacts.EmergencyContactsListAdapter;
+import com.example.safecity.data.report_item.ReportItem;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,21 @@ public class RecentReportsFragment extends Fragment {
         reportsListAdapter = new ReportsListAdapter(requireContext(),
                 R.layout.list_item_report, reports);
         reportsListView.setAdapter(reportsListAdapter);
+
+        ///* COMENTAR ESTO SI NO SALE
+        reportsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ReportItem.type = reports.get(position).type;
+                ReportItem.details = (reports.get(position).type.equals("Robo")) ?
+                        "Me robaron cerca a mi casa dos tipos en moto" :
+                        "Choqué mi auto en la avenida Izaguirre";
+
+                final NavController navController = Navigation.findNavController(getView());
+                navController.navigate(R.id.nav_report);
+
+            }
+        });
 
         return root;
     }
