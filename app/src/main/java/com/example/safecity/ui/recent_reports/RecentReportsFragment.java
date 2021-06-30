@@ -18,6 +18,8 @@ import android.widget.ListView;
 
 import com.example.safecity.R;
 import com.example.safecity.databinding.RecentReportsFragmentBinding;
+import com.example.safecity.data.reports_list.Report;
+import com.example.safecity.data.reports_list.ReportsList;
 import com.example.safecity.data.report_item.ReportItem;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class RecentReportsFragment extends Fragment {
     private RecentReportsViewModel mViewModel;
     private RecentReportsFragmentBinding binding;
 
-    public ArrayList<Report> reports = new ArrayList<>();
+    //public ArrayList<Report> reports = new ArrayList<>();
     public ReportsListAdapter reportsListAdapter;
     public ListView reportsListView;
 
@@ -44,27 +46,17 @@ public class RecentReportsFragment extends Fragment {
 
         reportsListView = binding.recentReportsListView;
 
-        reports.add(new Report("Edwin Yauyo", "Robo", false, "5h"));
-        reports.add(new Report("Donald Kun", "Accidente", true, "5h"));
-        reports.add(new Report("Edwin Yauyo", "Robo", false, "5h"));
-        reports.add(new Report("Donald Kun", "Accidente", true, "5h"));
-        reports.add(new Report("Edwin Yauyo", "Robo", false, "5h"));
-        reports.add(new Report("Donald Kun", "Accidente", true, "5h"));
-        reports.add(new Report("Edwin Yauyo", "Robo", false, "5h"));
-        reports.add(new Report("Donald Kun", "Accidente", true, "5h"));
-
         reportsListAdapter = new ReportsListAdapter(requireContext(),
-                R.layout.list_item_report, reports);
+                R.layout.list_item_report, ReportsList.reports_list);
         reportsListView.setAdapter(reportsListAdapter);
 
-        ///* COMENTAR ESTO SI NO SALE
         reportsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ReportItem.type = reports.get(position).type;
-                ReportItem.details = (reports.get(position).type.equals("Robo")) ?
-                        "Me robaron cerca a mi casa dos tipos en moto" :
-                        "Choqué mi auto en la avenida Izaguirre";
+                ReportItem.type = ReportsList.reports_list.get(position).type;
+                ReportItem.details = ReportsList.reports_list.get(position).details;
+
+                ReportsList.reports_list.get(position).isSeen = true;
 
                 final NavController navController = Navigation.findNavController(getView());
                 navController.navigate(R.id.nav_report);

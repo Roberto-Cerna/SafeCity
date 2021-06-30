@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.safecity.R;
-import com.example.safecity.ui.recent_reports.Report;
+import com.example.safecity.data.reports_list.Report;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,6 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
         String type = getItem(position).type;
         boolean isSeen = getItem(position).isSeen;
         String time = getItem(position).time;
-
-        Report report = new Report(name, type, isSeen, time);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
