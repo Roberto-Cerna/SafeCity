@@ -70,6 +70,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updatingProfile(false);
+                saveProfile();
                 Toast.makeText(getActivity(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
             }
         });
@@ -101,5 +102,11 @@ public class ProfileFragment extends Fragment {
             saveProfileButton.setVisibility(View.INVISIBLE);
             updateProfileButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void saveProfile() {
+        User.name = Objects.requireNonNull(nameProfileTextField.getEditText()).getText().toString();
+        User.email = Objects.requireNonNull(emailProfileTextField.getEditText()).getText().toString();
+        User.phone = Objects.requireNonNull(phoneProfileTextField.getEditText()).getText().toString();
     }
 }
