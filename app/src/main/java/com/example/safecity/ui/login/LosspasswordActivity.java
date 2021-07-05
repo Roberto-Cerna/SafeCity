@@ -1,5 +1,6 @@
 package com.example.safecity.ui.login;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,6 +41,9 @@ public class LosspasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.losspassword);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         objectForRecoverPassword = findViewById(R.id.objectForRecoverPasswor);
         sendCode = findViewById(R.id.SendCode);

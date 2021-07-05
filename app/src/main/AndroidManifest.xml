@@ -18,9 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SafeCity">
         <activity android:name=".ui.incident_report.incidentReport"/>
-        <activity android:name=".ui.login.NewPassword" />
-        <activity android:name=".ui.login.RecoveryCodeConfirmation" />
-        <activity android:name=".ui.login.LosspasswordActivity" />
+        <activity android:name=".ui.login.NewPassword"/>
+        <activity android:name=".ui.login.RecoveryCodeConfirmation">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LosspasswordActivity"/>
+        </activity>
+        <activity android:name=".ui.login.LosspasswordActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LoginActivity"/>
+        </activity>
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".ui.login.RegisterActivity">
             android:name = ".RegisterActivity"
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LoginActivity"/>
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

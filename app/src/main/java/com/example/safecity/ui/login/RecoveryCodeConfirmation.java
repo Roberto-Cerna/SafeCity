@@ -1,6 +1,7 @@
 package com.example.safecity.ui.login;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,6 +24,8 @@ public class RecoveryCodeConfirmation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         code = getIntent().getStringExtra("Code");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_recovery_code_confirmation);
         VerificationCode = findViewById(R.id.VerificationCode);

@@ -1,6 +1,7 @@
 package com.example.safecity.ui.login;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -21,6 +22,7 @@ public class NewPassword extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+
 
         password = findViewById(R.id.RecoveryNewPassword);
         confirmPassword = findViewById(R.id.RecoveryConfirmedNewPassword);
