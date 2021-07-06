@@ -15,6 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.safecity.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout textRegisterUsernameLayout;
     private TextInputLayout textPhoneRegisterLayout;
@@ -25,10 +33,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button RegisterButton,cancelRegisterButton;
     private ProgressBar progressBar;
+
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private final String BASE_URL = "http://10.0.2.2:8080";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -85,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                     textRegisterConfirmedPasswordLayout.setError("Las contraseñas no coinciden");
                 }
                 else{
-                    RegisterForm();
+                    RegisterForm(username,phone,dni,email,password);
                     finish();
                 }
             }
@@ -100,8 +121,32 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void RegisterForm(){
-        
+    private void RegisterForm(String username, String phone, String dni, String email, String password){
+        HashMap<String,String> map = new HashMap<>();
+        map.put("username",username);
+        map.put("phone",phone);
+        map.put("dni",dni);
+        map.put("email",email);
+        map.put("password",password);
+
+        Call<Void> call = retrofitInterface.executeSignup(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code()==200){
+                    Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "Registro fallido :c", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         

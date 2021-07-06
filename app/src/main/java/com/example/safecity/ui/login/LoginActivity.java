@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +21,14 @@ import com.example.safecity.R;
 import com.example.safecity.ui.SafePreferences;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout textUsernameLayout;
     private TextInputLayout textPasswordInput;
@@ -27,7 +37,9 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private SafePreferences preferences;
     private TextView forgotPassword;
-
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private final String BASE_URL = "http://10.0.2.2:8080";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_login);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         textUsernameLayout = findViewById(R.id.textUsernameLayout);
         textPasswordInput = findViewById(R.id.textPasswordInput);
@@ -100,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginClicked() {
         String username = textUsernameLayout.getEditText().getText().toString();
         String password = textPasswordInput.getEditText().getText().toString();
-
+        /*
         if(username.isEmpty()){
             textUsernameLayout.setError("Username must not be empty");
         }else if(password.isEmpty()){
@@ -108,9 +125,47 @@ public class LoginActivity extends AppCompatActivity {
         }else if(!username.equals("admin") || !password.equals("admin")){
             showErrorDialog();
         }else{
-            performLogin();
+            handleLoginDialog(username,password);
+
+        }*/
+        if(username.isEmpty()){
+            textUsernameLayout.setError("Username must not be empty");
+        }else if(password.isEmpty()){
+            textPasswordInput.setError("Password must not be empty");
+        }else{
+            handleLoginDialog(username,password);
+
         }
 
+    }
+
+    private void handleLoginDialog(String username, String password) {
+        HashMap<String,String> map = new HashMap<>();
+        map.put("username",username);
+        map.put("password",password);
+        Call<LoginResult> call = retrofitInterface.executeLogin(map);
+        call.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                if (response.code() == 200){
+                    LoginResult result = response.body();
+                    Log.d("Result",result.getUsername());
+                    Log.d("Result",result.getDni());
+                    Log.d("Result",result.getEmail());
+                    Log.d("Result",result.getPhone());
+
+                    Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_LONG).show();
+                    performLogin();
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Login fallido", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "error :C", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void performLogin() {
@@ -137,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
     private void showErrorDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Login Failed")
-                .setMessage("Username or password is not correct. Please try again.")
+                .setMessage("Credenciales incorretas. intente nuevamente.")
                 .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .show();
     }
