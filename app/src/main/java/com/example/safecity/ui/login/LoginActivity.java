@@ -46,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
 
         preferences = new SafePreferences(this);
         if(preferences.isLoggedIn()){
+            User.name = preferences.getName();
+            User.id = preferences.getId();
+            User.phone = preferences.getPhone();
+            User.email = preferences.getEmail();
+
             startMainActivity();
             finish();
             return;
@@ -176,6 +181,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void performLogin() {
         preferences.setLoggedIn(true); // Cambiando el estado de login
+        preferences.SetName(User.name);
+        preferences.setEmail(User.email);
+        preferences.setId(User.id);
+        preferences.setPhone(User.phone);
 
         textUsernameLayout.setEnabled(false);
         textPasswordInput.setEnabled(false);

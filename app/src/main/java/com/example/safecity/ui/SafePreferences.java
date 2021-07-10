@@ -20,4 +20,33 @@ public class SafePreferences {
     public void setLoggedIn(boolean loggedIn){
         preferences.edit().putBoolean(KEY_LOGIN_STATE, loggedIn).apply();
     }
+
+    public void SetName(String name){
+        preferences.edit().putString("name",name).apply();
+    }
+
+    public String getName(){
+        return preferences.getString("name","");
+    }
+
+    public void setPhone(String phone){
+        preferences.edit().putString("phone",phone).apply();
+    }
+    public String getPhone(){
+        return preferences.getString("phone","");
+    }
+
+    public void setEmail(String email){
+        preferences.edit().putString("email",email).apply();
+    }
+    public String getEmail(){
+        return preferences.getString("email","");
+    }
+
+    public void setId(String id){
+        preferences.edit().putString("id",id).apply();
+    }
+    public String getId(){
+        return preferences.getString("id","");
+    }
 }
