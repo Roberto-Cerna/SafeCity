@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgotPassword;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private final String BASE_URL = "http://10.0.2.2:8080";
+    private final String BASE_URL = "https://safecity-api.herokuapp.com/";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Result",result.getDni());
                     Log.d("Result",result.getEmail());
                     Log.d("Result",result.getPhone());
-
+                    
                     Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_LONG).show();
                     performLogin();
                 }
