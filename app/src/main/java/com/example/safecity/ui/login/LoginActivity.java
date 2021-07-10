@@ -1,5 +1,5 @@
 package com.example.safecity.ui.login;
-
+import com.example.safecity.data.user.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -153,7 +153,13 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Result",result.getDni());
                     Log.d("Result",result.getEmail());
                     Log.d("Result",result.getPhone());
-                    
+                    Log.d("Result",result.getPhone());
+                    Log.d("Result",result.get_id());
+                    User.name = result.getUsername();
+                    User.email = result.getEmail();
+                    User.phone = result.getPhone();
+                    User.id = result.get_id();
+
                     Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_LONG).show();
                     performLogin();
                 }
