@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,16 +23,27 @@ import android.widget.Toast;
 
 import com.example.safecity.R;
 
+import java.util.HashMap;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LosspasswordActivity extends AppCompatActivity {
     private EditText objectForRecoverPassword;
     private Button sendCode;
     private Button cancelButton;
     private int code;
-
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
 
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private final String BASE_URL = "https://safecity-api.herokuapp.com/";
+    private String telNr;
+    private String id;
     String SENT = "SMS_SENT";
     String DELIVERED = "SMS_DELIVERED";
     PendingIntent sentPI, deliveredPI;
@@ -41,6 +53,13 @@ public class LosspasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.losspassword);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -67,8 +86,47 @@ public class LosspasswordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Ingrese DNI o correo",Toast.LENGTH_LONG).show();
         }
         else{
-            sendCodeF();
+            handleSearchAccount();
+
         }
+    }
+
+    private void handleSearchAccount() {
+        String email = "",dni = "";
+        String message = objectForRecoverPassword.getText().toString();
+        if (Patterns.EMAIL_ADDRESS.matcher(message).matches()) {
+            email = message;
+            Toast.makeText(this, "es email", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            dni = message;
+            Toast.makeText(this, "es dni", Toast.LENGTH_SHORT).show();
+        }
+        HashMap<String,String> map = new HashMap<>();
+        map.put("dni",dni);
+        map.put("email",email);
+        Call<LoginResult> call = retrofitInterface.executeRequest(map);
+        call.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                if (response.code()==200){
+                    LoginResult result = response.body();
+                    telNr = result.getPhone();
+                    id = result.get_id();
+                    Toast.makeText(LosspasswordActivity.this, "Se obtuvo la cuenta", Toast.LENGTH_SHORT).show();
+                    sendCodeF();
+                }
+                else{
+                    Toast.makeText(LosspasswordActivity.this, "CUENTA NO ENCONTRADA!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
@@ -133,7 +191,7 @@ public class LosspasswordActivity extends AppCompatActivity {
             int min = 1000;
             code = rand.nextInt((max-min)+1) + min;
             String message = Integer.toString(code);
-            String telNr = "940623330";
+
 
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this,RecoveryCodeConfirmation.class);
@@ -142,6 +200,7 @@ public class LosspasswordActivity extends AppCompatActivity {
             sms.sendTextMessage(telNr,null,message,sentPI,deliveredPI);
 
             intent.putExtra("Code",message);
+            intent.putExtra("id",id);
             startActivity(intent);
 
         }

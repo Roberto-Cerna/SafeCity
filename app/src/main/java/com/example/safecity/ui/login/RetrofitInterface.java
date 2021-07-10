@@ -13,5 +13,9 @@ public interface RetrofitInterface {
     @POST("user/register")
     Call<Void> executeSignup(@Body HashMap<String,String> map);
 
+    @POST("user/request_new_password")
+    Call<LoginResult> executeRequest(@Body HashMap<String,String> map);
 
+    @POST("user/new_password")
+    Call<Void> executeNewPassword(@Body HashMap<String,String> map);
 }

@@ -8,22 +8,27 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.safecity.R;
 
+
 public class RecoveryCodeConfirmation extends AppCompatActivity {
     private EditText VerificationCode;
     private Button ReceiveCode;
     private Button cancelButton;
     private String code;
-
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         code = getIntent().getStringExtra("Code");
+        id = getIntent().getStringExtra("id");
+        Log.d("CODE:",code);
+        Log.d("id:",id);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -57,6 +62,7 @@ public class RecoveryCodeConfirmation extends AppCompatActivity {
     private void VerificateCode() {
 
         Intent intent = new Intent(this, NewPassword.class);
+        intent.putExtra("id",id);
         startActivity(intent);
     }
 
