@@ -3,10 +3,19 @@ package com.example.safecity.ui.login;
 public class LoginResult {
     private String username;
     private String password;
+    private String name;
     private String dni;
     private String phone;
     private String email;
     private String _id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String get_id() {
         return _id;

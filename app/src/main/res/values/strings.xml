@@ -23,8 +23,12 @@
     <string name="siguiente">Siguiente</string>
     <string name="code">Enter Code</string>
     <string name="ingrese_su_nueva_contrase_a">Ingrese su nueva contraseña</string>
-    <string name="contrase_a">Password</string>
-    <string name="new_password">Confirm password</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="new_password">Confirmar Contraseña</string>
     <string name="confirmar">Confirmar</string>
+    <string name="correo_electr_nico">Correo Electrónico</string>
+    <string name="tel_fono">Teléfono</string>
+    <string name="nombre">Nombre</string>
+    <string name="dni">DNI</string>
 
 </resources>

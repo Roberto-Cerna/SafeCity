@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         RegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = textRegisterUsernameLayout.getEditText().getText().toString();
+                String name = textRegisterUsernameLayout.getEditText().getText().toString();
                 String phone = textPhoneRegisterLayout.getEditText().getText().toString();
                 String dni = textDniRegisterLayout.getEditText().getText().toString();
                 String email = textEmailRegisterLayout.getEditText().getText().toString();
@@ -83,10 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-                if(username.isEmpty()){
-                    textRegisterUsernameLayout.setError("El campo usuario no debe estar vacío");
-                }else if(username.length()<5){
-                    textRegisterUsernameLayout.setError("El campo usuario debe tener al menos 5 carácteres");
+                if(name.isEmpty()){
+                    textRegisterUsernameLayout.setError("El campo nombre no debe estar vacío");
                 }else if(phone.length()<9){
                     textPhoneRegisterLayout.setError("Ingrese un número de teléfono válido");
                 }else if( dni.length() != 8){
@@ -106,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                     textRegisterConfirmedPasswordLayout.setError("Las contraseñas no coinciden");
                 }
                 else{
-                    RegisterForm(username,phone,dni,email,password);
+                    RegisterForm(name,phone,dni,email,password);
                     finish();
                 }
             }
@@ -121,9 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void RegisterForm(String username, String phone, String dni, String email, String password){
+    private void RegisterForm(String name, String phone, String dni, String email, String password){
         HashMap<String,String> map = new HashMap<>();
-        map.put("username",username);
+        map.put("name",name);
         map.put("phone",phone);
         map.put("dni",dni);
         map.put("email",email);

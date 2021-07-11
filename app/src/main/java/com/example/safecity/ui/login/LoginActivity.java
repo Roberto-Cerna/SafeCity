@@ -134,9 +134,9 @@ public class LoginActivity extends AppCompatActivity {
 
         }*/
         if(username.isEmpty()){
-            textUsernameLayout.setError("Username must not be empty");
+            textUsernameLayout.setError("Campo correo no debe estar vacío");
         }else if(password.isEmpty()){
-            textPasswordInput.setError("Password must not be empty");
+            textPasswordInput.setError("Contraseña no debe estar vacío");
         }else{
             handleLoginDialog(username,password);
 
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Result",result.getPhone());
                     Log.d("Result",result.getPhone());
                     Log.d("Result",result.get_id());
-                    User.name = result.getUsername();
+                    User.name = result.getName();
                     User.email = result.getEmail();
                     User.phone = result.getPhone();
                     User.id = result.get_id();
