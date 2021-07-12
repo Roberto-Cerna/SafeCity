@@ -1,13 +1,19 @@
 package com.example.safecity.ui.incident_report;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +23,7 @@ import com.example.safecity.R;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link IncidentReportFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class IncidentReportFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -88,4 +90,6 @@ public class IncidentReportFragment extends Fragment {
     private void onIncidentReport(NavController navController, String mi) {
         navController.navigate(R.id.nav_report_feature);
     }
+
+
 }

@@ -34,15 +34,10 @@ public class ReportFeatureFragment extends Fragment {
     public static final String BASE_URL = "https://images.unsplash.com/";
 
     public static final String agresion_URL = BASE_URL + "photo-1602058176018-7915d6bd37ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80";
-
     public static final String desaparecido_URL = BASE_URL + "photo-1497514440240-3b870f7341f0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=562&q=80";
-
     public static final String incendio_URL = BASE_URL +"photo-1516567832553-66232148f74c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1189&q=80";
-
     public static final String maltrato_URL = BASE_URL + "photo-1516585142943-4341daf22d5f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80";
-
     public static final String robo_URL = BASE_URL + "photo-1605806616949-1e87b487fc2f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80";
-
     public static final String otroCasos_URL = BASE_URL +"photo-1497005367839-6e852de72767?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1047&q=80";
 
     public ReportFeatureFragment() {

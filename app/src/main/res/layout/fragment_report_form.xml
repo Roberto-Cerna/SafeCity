@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textFeatureReport"
@@ -40,7 +40,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textDetailInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -68,34 +68,45 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:text="Pruebas:"
-            app:layout_constraintBottom_toTopOf="@+id/reportButton"
+            app:layout_constraintBottom_toTopOf="@+id/cameraButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textDetailInput" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cameraButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+        <ImageView
+            android:id="@+id/ReportImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="16dp"
-            android:text="Camara"
-            app:icon="@drawable/baseline_photo_camera_24"
+            android:layout_marginEnd="64dp"
+            android:outlineProvider="none"
             app:layout_constraintBottom_toTopOf="@id/reportButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cameraButton" />
+
+        <ImageView
+            android:id="@+id/cameraButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:src="@drawable/baseline_photo_camera_24"
+            app:layout_constraintBottom_toTopOf="@id/ReportImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/galleryButton"
             app:layout_constraintTop_toBottomOf="@id/textTest" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageView
             android:id="@+id/galleryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="32dp"
-            android:text="Galeria"
-            app:icon="@drawable/baseline_image_24"
+            android:src="@drawable/baseline_image_24"
             app:layout_constraintBottom_toBottomOf="@id/cameraButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cameraButton" />
+            app:layout_constraintStart_toEndOf="@id/cameraButton"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/reportButton"
@@ -108,7 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cameraButton" />
+            app:layout_constraintTop_toBottomOf="@id/ReportImage" />
 
         <ProgressBar
             android:id="@+id/progressBar"

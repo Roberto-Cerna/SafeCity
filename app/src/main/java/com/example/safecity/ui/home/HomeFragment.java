@@ -1,7 +1,10 @@
 package com.example.safecity.ui.home;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,27 +16,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.safecity.R;
-import com.example.safecity.connection.MainRetrofit;
-import com.example.safecity.connection.user.InfoResult;
-import com.example.safecity.data.user.User;
 import com.example.safecity.databinding.FragmentHomeBinding;
 import com.example.safecity.ui.incident_report.IncidentReportFragment;
-import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -41,8 +36,16 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     FragmentTransaction transaction;
     Fragment fragmentReport;
+    boolean isGPSEnabled;
+    boolean isNetworkEnabled;
 //    private Button sosButton;
 //    private Button reportButton;
+
+    protected LocationManager locationManager;
+    private int REQUEST_CODE_PERMISSIONS = 101;
+    private final String[] REQUIRED_PERMISSIONS = new String[]{
+            "android.permission.ACCESS_FINE_LOCATION"
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +56,10 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         fragmentReport = new IncidentReportFragment();
+
+        if(!allPermissionsGranted()){
+            ActivityCompat.requestPermissions(getActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+        }
         return root;
 
     }
@@ -62,12 +69,12 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Button sosButton = view.findViewById(R.id.sosButton);
-        Button reportButton = view.findViewById(R.id.reportarButton);
+        Button reportarButton = view.findViewById(R.id.reportarButton);
 
         final NavController navController = Navigation.findNavController(view);
 
         sosButton.setOnClickListener(v -> showSosDialog());
-        reportButton.setOnClickListener(v -> onReportClicked(navController));
+        reportarButton.setOnClickListener(v -> onReportClicked(navController));
 
     }
 
@@ -82,8 +89,28 @@ public class HomeFragment extends Fragment {
 //    }
 
     private void showSosDialog() {
-        Log.i(getTag(), "GAAAAAAAAAAAAAAAA");
-        performSos();
+        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+
+        // estado de GPS
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // estado de la conexion
+        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if(!isGPSEnabled && !isNetworkEnabled){
+            new AlertDialog.Builder(getContext())
+                    .setTitle("ERROR")
+                    .setMessage("Compruebe su conexión a internet o GPS")
+                    .setPositiveButton("ok", (((dialog, which) -> dialog.dismiss())))
+                    .show();
+        }else {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER);
+            performSos();
+            Log.i(getTag(), "GAAAAAAAA");
+        }
+
+
     }
 
     private void performSos() {
@@ -98,6 +125,16 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            Log.i(getTag(), permission);
+            if (ContextCompat.checkSelfPermission(getContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
