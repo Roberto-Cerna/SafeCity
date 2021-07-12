@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,22 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.safecity.R;
+import com.example.safecity.connection.MainRetrofit;
+import com.example.safecity.connection.user.InfoResult;
+import com.example.safecity.data.user.User;
 import com.example.safecity.databinding.FragmentHomeBinding;
 import com.example.safecity.ui.incident_report.IncidentReportFragment;
+import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -42,7 +53,6 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         fragmentReport = new IncidentReportFragment();
-
         return root;
 
     }

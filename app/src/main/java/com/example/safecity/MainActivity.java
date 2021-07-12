@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.safecity.connection.MainRetrofit;
+import com.example.safecity.connection.user.DefaultResult;
+import com.example.safecity.connection.user.InfoResult;
 import com.example.safecity.ui.SafePreferences;
 import com.example.safecity.ui.login.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,8 +28,11 @@ import com.example.safecity.databinding.ActivityMainBinding;
 
 import com.example.safecity.data.user.User;
 
-public class MainActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     public TextView headerNameTextView;
@@ -63,8 +70,33 @@ public class MainActivity extends AppCompatActivity {
 
         headerNameTextView = navigationView.getHeaderView(0).findViewById(R.id.headerNameTextView);
         headerEmailTextView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailTextView);
-        headerNameTextView.setText(User.name);
-        headerEmailTextView.setText(User.email);
+
+        Call<InfoResult> call = MainRetrofit.userAPI.getInfo(User.id);
+        call.enqueue(new Callback<InfoResult>() {
+            @Override
+            public void onResponse(Call<InfoResult> call, Response<InfoResult> response) {
+                if(response.code() == 200) {
+                    InfoResult infoResult = response.body();
+                    headerNameTextView.setText(infoResult.getName());
+                    headerEmailTextView.setText(infoResult.getEmail());
+                    preferences = new SafePreferences(getApplicationContext());
+                    preferences.SetName(infoResult.getName());
+                    preferences.setEmail(infoResult.getEmail());
+                    preferences.setPhone(infoResult.getPhone());
+                    User.name = infoResult.getName();
+                    User.email = infoResult.getEmail();
+                    User.phone = infoResult.getPhone();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Ocurrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoResult> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Ocurrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         logoutBotton = navigationView.findViewById(R.id.logoutButton);
         logoutBotton.setOnClickListener(v -> onLogout(preferences));
