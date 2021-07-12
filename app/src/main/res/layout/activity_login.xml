@@ -7,23 +7,31 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center_horizontal"
+
+            android:layout_marginTop="20dp"
+            app:srcCompat="@drawable/app_city_icon_layer" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textUsernameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:hint="@string/correo_electr_nico"
-            app:layout_constraintBottom_toTopOf="@id/textPasswordInput"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            android:layout_marginTop="20dp"
+            android:hint="@string/correo_electr_nico">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/loginInput"
@@ -37,19 +45,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:hint="Contraseña"
-            app:layout_constraintBottom_toTopOf="@id/loginButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textUsernameLayout">
+            android:hint="Contraseña">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -57,55 +63,38 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:text="Iniciar Sesión"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textPasswordInput" />
+            android:text="Iniciar Sesión" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/RegisterInLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:text="Registrarse"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginButton"
-            app:layout_constraintVertical_bias="0.0" />
+            android:text="Registrarse" />
 
         <TextView
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:text="¿Olvidaste tu contraseña?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/RegisterInLoginButton"
-            app:layout_constraintVertical_bias="0.127" />
+            android:text="¿Olvidaste tu contraseña?" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/forgotPassword"
-            app:layout_constraintVertical_bias="0.5" />
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
