@@ -166,16 +166,16 @@ public class LoginActivity extends AppCompatActivity {
                     User.phone = result.getPhone();
                     User.id = result.get_id();
 
-                    Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_LONG).show();
+
                     performLogin();
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Login fallido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Compruebe sus credenciales", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "error :C", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Error, inténtelo más tarde", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     RegisterForm(name,phone,dni,email,password);
-                    finish();
+
                 }
             }
         });
@@ -114,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -133,6 +134,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code()==200){
                     Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(response.code() == 403){
+                    Toast.makeText(RegisterActivity.this, "Cuenta ya existente", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, "Registro fallido, inténtelo más tarde ", Toast.LENGTH_SHORT).show();
@@ -146,8 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Registro fallido, inténtelo más tarde  ", Toast.LENGTH_SHORT).show();
             }
         });
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+
         
     }
 

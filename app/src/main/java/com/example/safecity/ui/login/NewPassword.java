@@ -86,14 +86,13 @@ public class NewPassword extends AppCompatActivity {
                     Toast.makeText(NewPassword.this, "Contraseña cambiada exitosamente", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(NewPassword.this, "Error al cambiar :c", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewPassword.this, "Error al cambiar", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(NewPassword.this, t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(NewPassword.this, "Error, inténtelo más tarde", Toast.LENGTH_SHORT).show();
             }
         });
 

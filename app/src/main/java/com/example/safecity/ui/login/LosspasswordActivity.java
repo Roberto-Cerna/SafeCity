@@ -94,14 +94,12 @@ public class LosspasswordActivity extends AppCompatActivity {
     private void handleSearchAccount() {
         String email = "",dni = "";
         String message = objectForRecoverPassword.getText().toString();
-        if (Patterns.EMAIL_ADDRESS.matcher(message).matches()) {
+        if (Patterns.EMAIL_ADDRESS.matcher(message).matches())
             email = message;
-            Toast.makeText(this, "es email", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        else
             dni = message;
-            Toast.makeText(this, "es dni", Toast.LENGTH_SHORT).show();
-        }
+
+
         HashMap<String,String> map = new HashMap<>();
         map.put("dni",dni);
         map.put("email",email);
@@ -113,17 +111,16 @@ public class LosspasswordActivity extends AppCompatActivity {
                     LoginResult result = response.body();
                     telNr = result.getPhone();
                     id = result.get_id();
-                    Toast.makeText(LosspasswordActivity.this, "Se obtuvo la cuenta", Toast.LENGTH_SHORT).show();
                     sendCodeF();
                 }
                 else{
-                    Toast.makeText(LosspasswordActivity.this, "CUENTA NO ENCONTRADA!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LosspasswordActivity.this, "Cuenta no encontrada!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-
+                Toast.makeText(LosspasswordActivity.this, "Error, intente más tarde", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -3,4 +3,8 @@
     <style name="circleButton" parent="">
         <item name="cornerSize">50%</item>
     </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/lightGrey </item>
+        <item name="colorControlActivated">@color/duskYellow</item>
+    </style>
 </resources>

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -74,7 +75,7 @@ public class ReviewFragment extends Fragment {
         TextView tvRatingScale = (TextView) view.findViewById(R.id.tvRatingScale);
         TextInputLayout reviewLayout = (TextInputLayout) view.findViewById(R.id.ReviewLayout);
         TextInputEditText etReview = (TextInputEditText) reviewLayout.getEditText();
-        AppCompatButton btnSubmitReview =  (AppCompatButton) view.findViewById(R.id.btnSubmitReview);
+        Button btnSubmitReview =  (Button) view.findViewById(R.id.btnSubmitReview);
 
         rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
