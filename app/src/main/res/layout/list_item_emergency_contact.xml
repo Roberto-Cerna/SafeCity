@@ -13,8 +13,10 @@
         android:id="@+id/emergencyContactListItemIcon"
         android:layout_width="80dp"
         android:layout_height="100dp"
+        android:layout_toRightOf="@id/checkBox"
         android:padding="16dp"
         android:scaleType="centerCrop"
+        android:visibility="visible"
         app:srcCompat="@drawable/profile_picture" />
 
     <TextView
@@ -30,6 +32,7 @@
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:visibility="visible"
         tools:text="Edwin Yauyo" />
 
     <TextView
@@ -43,6 +46,13 @@
         android:paddingLeft="20dp"
         android:paddingEnd="16dp"
         android:textAppearance="?attr/textAppearanceBody2"
+        android:visibility="visible"
         tools:text="987654321" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.example.safecity.connection.user;
 
+import com.example.safecity.ui.emergency_contacts.EmergencyContact;
 import com.example.safecity.ui.login.LoginResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -31,55 +33,24 @@ public interface UserAPI {
     // // Parameters: -
     // // Req: User id, contact_name, contact_phone
     // // Returns: Array of emergency contacts of user
-    // router.post("/emergency_contacts/", async (req, res) => {
-    //   let user_id = req.body.id;
-    //   let contact_name = req.body.contact_name;
-    //   let contact_phone = req.body.contact_phone;
-    //   let newContact;
-    //   await User.findOne({ phone: contact_name }, "photo")
-    //     .then((contact_photo) => {
-    //       newContact = {
-    //         name: contact_name,
-    //         phone: contact_phone,
-    //         photo: contact_photo,
-    //       };
-    //     })
-    //     .catch((err) => res.status(500).json({ err: err.toString() }));
-    //   await User.findByIdAndUpdate(user_id, {
-    //     $push: { emergencyContacts: newContact },
-    //   })
-    //     .then((user) => res.status(200).json({ msg: "Contacto agregado" }))
-    //     .catch((err) => res.status(500).json({ err: err.toString() }));
-    // });
+    @POST("user/emergency_contacts/")
+    Call<DefaultResult> postEmergencyContact(@Body PostEmergencyContactBody postEmergencyContactBody);
+
 
     // // Get Emergency Contacts
     // // Parameters: Id of user
     // // Req: -
     // // Returns: Array of emergency contacts of user
-    // router.get("/emergency_contacts/:id", async (req, res) => {
-    //   let user_id = req.params.id;
-    //   await User.findOne({ _id: user_id }, "emergencyContacts")
-    //     .then((result) => {
-    //       res.status(200).json({ emergencyContacts: result.emergencyContacts });
-    //     })
-    //     .catch((err) => res.status(500).json({ err: err.toString() }));
-    // });
+    @GET("user/emergency_contacts/{id}")
+    Call<EmergencyContactsResult> getEmergencyContacts(@Path("id") String id);
+
 
     // // Delete Emergency Contact
     // // Parameters: Id of user
     // // Body: Phone of emergency contact to be dropped
     // // Returns: Message of the process
-    // router.put("/delete_emergency_contacts/:id", async (req, res) => {
-    //   let user_id = req.params.id;
-    //   let contact_phone = req.body.contact_phone;
-    //   await User.findByIdAndUpdate(user_id, {
-    //     $pull: { emergencyContacts: { phone: contact_phone } },
-    //   })
-    //     .then((result) => {
-    //       res.status(200).json({ msg: "Contacto eliminado" });
-    //     })
-    //     .catch((err) => res.status(500).json({ err: err.toString() }));
-    // });
+    @PUT("user/delete_emergency_contacts/{id}")
+    Call<DeleteEmergencyContactsResult> deleteEmergencyContacts(@Path("id") String id, @Body DeleteEmergencyContactsBody deleteEmergencyContactsBody);
 
     // // Get reports sent to the user
     // // Parameters: Id of user

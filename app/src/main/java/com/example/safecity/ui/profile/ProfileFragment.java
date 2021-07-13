@@ -36,10 +36,6 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     private SafePreferences preferences;
-    private String profileName = User.name;
-    private String profileEmail = User.email;
-    private String profilePhone = User.phone;
-
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
 
@@ -109,9 +105,9 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setProfileInfo() {
-        Objects.requireNonNull(nameProfileTextField.getEditText()).setText(profileName);
-        Objects.requireNonNull(emailProfileTextField.getEditText()).setText(profileEmail);
-        Objects.requireNonNull(phoneProfileTextField.getEditText()).setText(profilePhone);
+        Objects.requireNonNull(nameProfileTextField.getEditText()).setText(User.name);
+        Objects.requireNonNull(emailProfileTextField.getEditText()).setText(User.email);
+        Objects.requireNonNull(phoneProfileTextField.getEditText()).setText(User.phone);
         updatingProfile(false);
     }
 

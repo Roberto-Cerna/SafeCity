@@ -23,6 +23,7 @@ import com.example.safecity.data.reports_list.ReportsList;
 import com.example.safecity.data.report_item.ReportItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecentReportsFragment extends Fragment {
 
@@ -58,7 +59,7 @@ public class RecentReportsFragment extends Fragment {
 
                 ReportsList.reports_list.get(position).isSeen = true;
 
-                final NavController navController = Navigation.findNavController(getView());
+                NavController navController = Navigation.findNavController(requireView());
                 navController.navigate(R.id.nav_report);
 
             }

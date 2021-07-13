@@ -32,6 +32,12 @@
         tools:layout="@layout/emergency_contacts_fragment" />
 
     <fragment
+        android:id="@+id/nav_new_emergency_contact"
+        android:name="com.example.safecity.ui.new_emergency_contact.NewEmergencyContactFragment"
+        android:label="Nuevo contacto"
+        tools:layout="@layout/new_emergency_contact_fragment" />
+
+    <fragment
         android:id="@+id/nav_recent_reports"
         android:name="com.example.safecity.ui.recent_reports.RecentReportsFragment"
         android:label="Reportes Recientes"
