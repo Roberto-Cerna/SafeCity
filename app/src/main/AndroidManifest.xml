@@ -68,8 +68,6 @@
             android:theme="@style/Theme.SafeCity.NoActionBar" >
         </activity>
 
-        <activity android:name=".ui.new_emergency_contact.NewEmergencyContactActivity">
-        </activity>
     </application>
 
 </manifest>

@@ -24,5 +24,9 @@
             android:id="@+id/nav_recent_reports"
             android:icon="@drawable/ic_baseline_add_alert_24"
             android:title="@string/later_reports" />
+        <item
+            android:id="@+id/nav_review"
+            android:icon="@drawable/ic_baseline_rate_review_24"
+            android:title="Reseña" />
     </group>
 </menu>

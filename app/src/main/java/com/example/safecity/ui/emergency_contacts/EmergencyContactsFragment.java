@@ -1,5 +1,6 @@
 package com.example.safecity.ui.emergency_contacts;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -72,11 +73,12 @@ public class EmergencyContactsFragment extends Fragment {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
+                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
                 MenuInflater menuInflater = mode.getMenuInflater();
                 menuInflater.inflate(R.menu.context_menu, menu);
                 isActionMode = true;
                 actionMode = mode;
+                actionMode.setTitle(contactPhonesSelection.size() + " contacto(s) seleccionado(s)");
                 return true;
             }
 
@@ -88,10 +90,14 @@ public class EmergencyContactsFragment extends Fragment {
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 if(item.getItemId() == R.id.action_delete) {
+                    if(contactPhonesSelection.size() == 0) {
+                        mode.finish();
+                        return true;
+                    }
                     Call<DeleteEmergencyContactsResult> call = MainRetrofit.userAPI.deleteEmergencyContacts(User.id, new DeleteEmergencyContactsBody(contactPhonesSelection));
                     call.enqueue(new Callback<DeleteEmergencyContactsResult>() {
                         @Override
-                        public void onResponse(Call<DeleteEmergencyContactsResult> call, Response<DeleteEmergencyContactsResult> response) {
+                        public void onResponse(@NotNull Call<DeleteEmergencyContactsResult> call, @NotNull Response<DeleteEmergencyContactsResult> response) {
                             if(response.code() == 200) {
                                 DeleteEmergencyContactsResult deleteEmergencyContactsResult = response.body();
                                 assert deleteEmergencyContactsResult != null;
@@ -108,7 +114,7 @@ public class EmergencyContactsFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<DeleteEmergencyContactsResult> call, Throwable t) {
+                        public void onFailure(@NotNull Call<DeleteEmergencyContactsResult> call, @NotNull Throwable t) {
                             Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -122,6 +128,7 @@ public class EmergencyContactsFragment extends Fragment {
                 isActionMode = false;
                 actionMode = null;
                 contactPhonesSelection.clear();
+                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
             }
         });
 

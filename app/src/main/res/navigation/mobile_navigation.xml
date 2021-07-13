@@ -26,6 +26,12 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
+        android:id="@+id/nav_review"
+        android:name="com.example.safecity.ui.review.ReviewFragment"
+        android:label="Reseña"
+        tools:layout="@layout/review_fragment" />
+
+    <fragment
         android:id="@+id/nav_emergency_contacts"
         android:name="com.example.safecity.ui.emergency_contacts.EmergencyContactsFragment"
         android:label="Contactos de Emergencia"
