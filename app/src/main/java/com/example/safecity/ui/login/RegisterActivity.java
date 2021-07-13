@@ -135,14 +135,15 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(RegisterActivity.this, "Registro fallido :c", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registro fallido, inténtelo más tarde ", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(RegisterActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Registro fallido, inténtelo más tarde  ", Toast.LENGTH_SHORT).show();
             }
         });
         Intent intent = new Intent(this, LoginActivity.class);
