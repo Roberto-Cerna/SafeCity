@@ -40,20 +40,43 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textDetailInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:hint="Descripción"
-            app:layout_constraintBottom_toTopOf="@id/textTest"
+            app:startIconDrawable="@drawable/ic_short_text_24"
+            app:layout_constraintBottom_toTopOf="@id/addressTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textFeatureReport">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/detailInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressTextInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Lugar del incidente"
+            app:startIconDrawable="@drawable/ic_add_location_24"
+            app:layout_constraintBottom_toTopOf="@id/textTest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textDetailInput">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -71,7 +94,7 @@
             app:layout_constraintBottom_toTopOf="@+id/cameraButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textDetailInput" />
+            app:layout_constraintTop_toBottomOf="@+id/addressTextInput" />
 
         <ImageView
             android:id="@+id/ReportImage"
@@ -81,6 +104,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
             android:outlineProvider="none"
+            app:srcCompat="@drawable/app_city_icon_layer"
             app:layout_constraintBottom_toTopOf="@id/reportButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

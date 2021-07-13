@@ -57,4 +57,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0-beta02'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.android.libraries.places:places:2.2.0'
 }
