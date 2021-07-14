@@ -54,6 +54,13 @@
         android:name="com.example.safecity.ui.report_maps.ReportMapsFragment"
         android:label="Mapa de Incidencias"
         tools:layout="@layout/fragment_report_maps" />
+
+    <fragment
+        android:id="@+id/nav_report_item_map"
+        android:name="com.example.safecity.ui.report_item_map.ReportItemMapFragment"
+        android:label="Mapa de la Incidencia"
+        tools:layout="@layout/fragment_report_item_map" />
+
     <fragment
         android:id="@+id/nav_incident_report"
         android:name="com.example.safecity.ui.incident_report.IncidentReportFragment"

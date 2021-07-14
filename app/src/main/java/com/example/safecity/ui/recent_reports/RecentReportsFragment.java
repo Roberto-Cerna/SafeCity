@@ -2,6 +2,7 @@ package com.example.safecity.ui.recent_reports;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,18 +11,17 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.safecity.R;
 import com.example.safecity.connection.MainRetrofit;
 import com.example.safecity.connection.report.GetRecentReportsResult;
-import com.example.safecity.data.reports_list.Report;
 import com.example.safecity.databinding.RecentReportsFragmentBinding;
 import com.example.safecity.data.reports_list.ReportsList;
 import com.example.safecity.data.report_item.ReportItem;
@@ -38,6 +38,7 @@ public class RecentReportsFragment extends Fragment {
     //public ArrayList<Report> reports = new ArrayList<>();
     public ReportsListAdapter reportsListAdapter;
     public ListView reportsListView;
+    public TextView emptyRecentReportsTextView;
 
     public static RecentReportsFragment newInstance() {
         return new RecentReportsFragment();
@@ -51,7 +52,11 @@ public class RecentReportsFragment extends Fragment {
         View root = binding.getRoot();
 
         reportsListView = binding.recentReportsListView;
+        emptyRecentReportsTextView = binding.emptyRecentReportsTextView;
 
+        AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
+        alertDialog.setMessage("Cargando...");
+        alertDialog.show();
         Call<GetRecentReportsResult> call = MainRetrofit.reportAPI.getLastNIncidents("3");
         call.enqueue(new Callback<GetRecentReportsResult>() {
             @Override
@@ -67,11 +72,17 @@ public class RecentReportsFragment extends Fragment {
                 else {
                     Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                 }
+                alertDialog.dismiss();
+                emptyRecentReportsTextView.setVisibility(View.VISIBLE);
+                reportsListView.setEmptyView(emptyRecentReportsTextView);
             }
 
             @Override
             public void onFailure(Call<GetRecentReportsResult> call, Throwable t) {
                 Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+                emptyRecentReportsTextView.setVisibility(View.VISIBLE);
+                reportsListView.setEmptyView(emptyRecentReportsTextView);
             }
         });
 
@@ -82,6 +93,10 @@ public class RecentReportsFragment extends Fragment {
                 ReportItem.type = ReportsList.reports_list.get(position).incident;
                 ReportItem.details = ReportsList.reports_list.get(position).details;
                 ReportItem.fileURL = ReportsList.reports_list.get(position).fileURL;
+                ReportItem.locationLatitude = ReportsList.reports_list.get(position).locationLatitude;
+                ReportItem.locationLongitude = ReportsList.reports_list.get(position).locationLongitude;
+                ReportItem.daysAgo = ReportsList.reports_list.get(position).daysAgo;
+                ReportItem.victim = ReportsList.reports_list.get(position).victim;
                 //ReportsList.reports_list.get(position).isSeen = true;
 
                 NavController navController = Navigation.findNavController(requireView());

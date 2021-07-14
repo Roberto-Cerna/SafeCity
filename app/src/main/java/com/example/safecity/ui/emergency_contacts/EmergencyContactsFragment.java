@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -49,6 +51,7 @@ public class EmergencyContactsFragment extends Fragment {
     public Button addNewContactButton;
     public EmergencyContactsListAdapter emergencyContactsListAdapter;
     public ListView emergencyContactsListView;
+    public TextView emptyEmergencyContactsTextView;
     public static boolean isActionMode = false;
     public static ArrayList<String> contactPhonesSelection = new ArrayList<>();
     public static ActionMode actionMode;
@@ -62,6 +65,7 @@ public class EmergencyContactsFragment extends Fragment {
 
         addNewContactButton = binding.addContactButton;
         emergencyContactsListView = binding.emergenyContactsListView;
+        emptyEmergencyContactsTextView = binding.emptyEmergencyContactsTextView;
         emergencyContactsListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         emergencyContactsListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
@@ -130,6 +134,10 @@ public class EmergencyContactsFragment extends Fragment {
             }
         });
 
+        AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
+        alertDialog.setMessage("Cargando...");
+        alertDialog.show();
+
         Call<GetEmergencyContactsResult> call = MainRetrofit.userAPI.getEmergencyContacts(User.id);
         call.enqueue(new Callback<GetEmergencyContactsResult>() {
             @Override
@@ -145,11 +153,17 @@ public class EmergencyContactsFragment extends Fragment {
                 else {
                     Toast.makeText(requireContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                 }
+                alertDialog.dismiss();
+                emptyEmergencyContactsTextView.setVisibility(View.VISIBLE);
+                emergencyContactsListView.setEmptyView(emptyEmergencyContactsTextView);
             }
 
             @Override
             public void onFailure(@NotNull Call<GetEmergencyContactsResult> call, @NotNull Throwable t) {
                 Toast.makeText(requireContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+                emptyEmergencyContactsTextView.setVisibility(View.VISIBLE);
+                emergencyContactsListView.setEmptyView(emptyEmergencyContactsTextView);
             }
         });
 

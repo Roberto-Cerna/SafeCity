@@ -56,6 +56,17 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/unsupportButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Desatender"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/openReportMapButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/openReportMapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

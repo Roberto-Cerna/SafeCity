@@ -49,7 +49,25 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
         reportListItemName.setText(name);
         reportListItemType.setText(type);
         //reportListItemIcon.setVisibility((isSeen) ? View.INVISIBLE : View.VISIBLE);
-        reportListItemTime.setText(time);
+
+        String report_time = "";
+        double daysAgo = Double.parseDouble(time);
+        if(daysAgo >= 1) {
+            report_time += "hace " + (int) daysAgo + " día(s)";
+        }
+        else {
+            double hoursAgo = 24 * daysAgo;
+            if(hoursAgo >= 1) {
+
+                report_time += "hace " + (int) (hoursAgo) + " hora(s)";
+            }
+            else {
+                double minutesAgo = 60 * hoursAgo;
+                report_time += "hace " + (int) minutesAgo + " minuto(s)";
+            }
+        }
+
+        reportListItemTime.setText(report_time);
 
         return convertView;
     }
