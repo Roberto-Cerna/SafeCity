@@ -1,5 +1,7 @@
 package com.example.safecity.ui.report;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.safecity.R;
 import com.example.safecity.data.report_item.AttendingReport;
@@ -27,6 +31,7 @@ public class ReportFragment extends Fragment {
 
     private ReportViewModel mViewModel;
     private ReportFragmentBinding binding;
+    boolean isImageFitToScreen;
 
     public static ReportFragment newInstance() {
         return new ReportFragment();
@@ -80,6 +85,14 @@ public class ReportFragment extends Fragment {
                 binding.unsupportButton.setVisibility(View.INVISIBLE);
                 binding.supportButton.setVisibility(View.VISIBLE);
                 AttendingReport.id = "";
+            }
+        });
+
+        binding.reportImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireView());
+                navController.navigate(R.id.nav_full_image_report);
             }
         });
 

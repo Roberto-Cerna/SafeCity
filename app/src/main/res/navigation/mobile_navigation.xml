@@ -56,6 +56,12 @@
         tools:layout="@layout/fragment_report_maps" />
 
     <fragment
+        android:id="@+id/nav_full_image_report"
+        android:name="com.example.safecity.ui.full_image_report.FullImageReportFragment"
+        android:label=""
+        tools:layout="@layout/full_image_report_fragment" />
+
+    <fragment
         android:id="@+id/nav_report_item_map"
         android:name="com.example.safecity.ui.report_item_map.ReportItemMapFragment"
         android:label="Mapa de la Incidencia"

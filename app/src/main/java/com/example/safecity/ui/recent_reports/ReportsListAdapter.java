@@ -53,17 +53,17 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
         String report_time = "";
         double daysAgo = Double.parseDouble(time);
         if(daysAgo >= 1) {
-            report_time += "hace " + (int) daysAgo + " día(s)";
+            report_time += (int) daysAgo + " día(s)";
         }
         else {
             double hoursAgo = 24 * daysAgo;
             if(hoursAgo >= 1) {
 
-                report_time += "hace " + (int) (hoursAgo) + " hora(s)";
+                report_time += (int) (hoursAgo) + " hora(s)";
             }
             else {
                 double minutesAgo = 60 * hoursAgo;
-                report_time += "hace " + (int) minutesAgo + " minuto(s)";
+                report_time += (int) minutesAgo + " minuto(s)";
             }
         }
 
