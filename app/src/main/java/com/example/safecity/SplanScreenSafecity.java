@@ -24,7 +24,7 @@ public class SplanScreenSafecity extends AppCompatActivity {
         };
 
         Handler handler = new Handler();
-        handler.postDelayed(r,2000);
+        handler.postDelayed(r,1500);
 
     }
 }
