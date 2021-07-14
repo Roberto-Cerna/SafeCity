@@ -6,49 +6,53 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-    <queries>
+    <queries></queries>
 
-    </queries>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_city_icon_round"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/app_city_icon_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.SafeCity">
-        <activity android:name=".ui.incident_report.incidentReport"/>
-        <activity android:name=".ui.login.NewPassword"/>
-        <activity android:name=".ui.login.RecoveryCodeConfirmation">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.login.LosspasswordActivity"/>
-        </activity>
-        <activity android:name=".ui.login.LosspasswordActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.login.LoginActivity"/>
-        </activity>
-        <activity android:name=".ui.login.LoginActivity">
+        android:theme="@style/Theme.SafeCity"
+        android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".SplanScreenSafecity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity android:name=".ui.login.LoginActivity"></activity>
+        <activity android:name=".ui.incident_report.incidentReport" />
+        <activity android:name=".ui.login.NewPassword" />
+        <activity android:name=".ui.login.RecoveryCodeConfirmation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LosspasswordActivity" />
+        </activity>
+        <activity android:name=".ui.login.LosspasswordActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LoginActivity" />
+        </activity>
         <activity android:name=".ui.login.RegisterActivity">
             android:name = ".RegisterActivity"
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.login.LoginActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LoginActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -65,9 +69,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.SafeCity.NoActionBar" >
-        </activity>
-
+            android:theme="@style/Theme.SafeCity.NoActionBar"></activity>
     </application>
 
 </manifest>
