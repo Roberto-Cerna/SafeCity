@@ -300,7 +300,7 @@ public class ReportFormFragment extends Fragment {
 
             @Override
             public void onFailure(Call<FormIncident> call, Throwable t) {
-                Toast.makeText(getActivity(),"Erro", Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT);
                 Log.d(getTag(), "onFailure: " + t);
             }
         });

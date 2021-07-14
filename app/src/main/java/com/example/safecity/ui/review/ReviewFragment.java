@@ -3,6 +3,7 @@ package com.example.safecity.ui.review;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -130,6 +131,7 @@ public class ReviewFragment extends Fragment {
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.i(getTag(), "error :"+String.valueOf(response));
                         if (response.code()==200){
                             Toast.makeText(getContext(), "Gracias por dejarnos tu opinión!", Toast.LENGTH_SHORT).show();
                             etReview.setText("");

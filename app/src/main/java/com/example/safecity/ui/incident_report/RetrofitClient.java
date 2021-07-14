@@ -1,5 +1,7 @@
 package com.example.safecity.ui.incident_report;
 
+import com.example.safecity.connection.report.ReportAPI;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;

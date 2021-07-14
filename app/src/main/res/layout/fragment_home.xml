@@ -23,6 +23,23 @@
         app:strokeColor="@android:color/darker_gray" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/sosCancelButton"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:enabled="true"
+        android:text="Emitiendo"
+        android:textSize="30sp"
+        app:backgroundTint="#FF0000"
+        app:layout_constraintBottom_toBottomOf="@+id/sosButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sosButton"
+        android:visibility="invisible"
+        app:shapeAppearanceOverlay="@style/circleButton" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/reportarButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
