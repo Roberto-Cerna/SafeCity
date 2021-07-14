@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.safecity.R;
 import com.example.safecity.databinding.ReportFragmentBinding;
 import com.example.safecity.data.report_item.ReportItem;
 import com.example.safecity.ui.recent_reports.RecentReportsFragment;
+import com.squareup.picasso.Picasso;
 
 public class ReportFragment extends Fragment {
 
@@ -33,6 +35,11 @@ public class ReportFragment extends Fragment {
 
         binding.reportTypeTextField.getEditText().setText(ReportItem.type);
         binding.detailsTextField.getEditText().setText(ReportItem.details);
+
+        String fileURL = ReportItem.fileURL;
+        if(!fileURL.equals("")) {
+            Picasso.get().load(fileURL).into(binding.reportImageView);
+        }
 
         return root;
     }

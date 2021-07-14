@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.safecity.R;
 import com.example.safecity.connection.MainRetrofit;
 import com.example.safecity.connection.report.GetRecentReportsResult;
+import com.example.safecity.data.reports_list.Report;
 import com.example.safecity.databinding.RecentReportsFragmentBinding;
 import com.example.safecity.data.reports_list.ReportsList;
 import com.example.safecity.data.report_item.ReportItem;
@@ -77,9 +78,10 @@ public class RecentReportsFragment extends Fragment {
         reportsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ReportItem.id = ReportsList.reports_list.get(position).id;
                 ReportItem.type = ReportsList.reports_list.get(position).incident;
                 ReportItem.details = ReportsList.reports_list.get(position).details;
-
+                ReportItem.fileURL = ReportsList.reports_list.get(position).fileURL;
                 //ReportsList.reports_list.get(position).isSeen = true;
 
                 NavController navController = Navigation.findNavController(requireView());
