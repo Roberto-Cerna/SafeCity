@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.safecity.R;
+import com.example.safecity.data.user.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -82,12 +83,17 @@ public class IncidentReportFragment extends Fragment {
 
         final NavController navController = Navigation.findNavController(view);
 
-        yourselfButton.setOnClickListener(v -> onIncidentReport(navController, "mi"));
-        anotherPersonButton.setOnClickListener(v -> onIncidentReport(navController, "otra persona"));
+        yourselfButton.setOnClickListener(v -> onIncidentReport(navController, User.name));
+        anotherPersonButton.setOnClickListener(v -> onIncidentReport(navController, "Anónimo"));
 
     }
 
-    private void onIncidentReport(NavController navController, String mi) {
+    private void onIncidentReport(NavController navController, String how) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id", how);
+        getParentFragmentManager().setFragmentResult("id",bundle);
+
         navController.navigate(R.id.nav_report_feature);
     }
 

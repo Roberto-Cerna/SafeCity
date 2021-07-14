@@ -161,6 +161,7 @@ public class HomeFragment extends Fragment implements LocationListener {
     }
 
     private void performSos() {
+
         Log.i(getTag(),"Coordenada del boton: "+ latitude+"," + longitude);
         String message = User.name+" necesita ayuda, esta es su ubicación :"+"https://www.google.es/maps?q="+latitude+","+longitude;
 
@@ -257,5 +258,23 @@ public class HomeFragment extends Fragment implements LocationListener {
                 .show();
     }
 
+//    private  final LocationListener locationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(Location location) {
+//            latitude =  location.getLatitude();
+//            longitude = location.getLongitude();
+//
+//            runOnYuThread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+////                    location.setLatitude(latitude);
+////                    location.setLongitude(longitude);
+//                    Log.i(getTag(),"Coordenada: "+ location.getLatitude()+"," + location.getLongitude());
+//                }
+//            });
+//
+//        }
+//    } ;
 
 }

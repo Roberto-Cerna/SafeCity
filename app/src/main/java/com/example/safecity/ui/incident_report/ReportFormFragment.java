@@ -90,6 +90,7 @@ public class ReportFormFragment extends Fragment {
     private String latitude , longitude;
     private Retrofit retrofit;
     private RetrofitInterface service;
+    private String how ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,10 +99,12 @@ public class ReportFormFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                String reportFeature = bundle.getString("key");
+                String[] reportFeature = bundle.getString("key").split(",");
 
-                Log.i(getTag(), reportFeature);
-                textFeatureReportInput.setText(reportFeature);
+                how = reportFeature[0];
+
+                Log.i(getTag(), reportFeature[1]);
+                textFeatureReportInput.setText(reportFeature[1]);
             }
         });
         if(!allPermissionsGranted()){
@@ -120,23 +123,27 @@ public class ReportFormFragment extends Fragment {
     }
 
     ActivityResultLauncher<Intent> intentLaunch = registerForActivityResult(
+
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.i(getTag(), "Result: "+result.getData().getData());
-                    if(result.getResultCode() == Activity.RESULT_OK){
-                        Uri selectedImageUri = result.getData().getData();
-                        if(null != selectedImageUri){
-//                            reportImage.setImageURI(selectedImageUri);
-                            try {
-                                finalImage = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),
-                                        selectedImageUri);
-                                reportImage.setImageBitmap(finalImage);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    if (result.getData() != null){
+                        Log.i(getTag(), "Result: "+result.getData().getData());
+                        if(result.getResultCode() == Activity.RESULT_OK){
+                            Uri selectedImageUri = result.getData().getData();
+                            if(null != selectedImageUri){
+                                try {
+                                    finalImage = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),
+                                            selectedImageUri);
+                                    reportImage.setImageBitmap(finalImage);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+                    }else {
+
                     }
                 }
             }
@@ -219,8 +226,6 @@ public class ReportFormFragment extends Fragment {
                 try {
                     Intent intentCamera = new Intent();
                     intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "templ.jpg");
-//                    intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                     intent2Launch.launch(intentCamera);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -231,26 +236,38 @@ public class ReportFormFragment extends Fragment {
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra("REQUEST_CODE_PERMISSIONS",101 );
-                intent.setAction(Intent.ACTION_PICK);
+                try{
+                    Intent intentGallery = new Intent();
+                    intentGallery.setType("image/*");
+                    intentGallery.putExtra("REQUEST_CODE_PERMISSIONS",101 );
+                    intentGallery.setAction(Intent.ACTION_PICK);
 
-                intentLaunch.launch(intent);
+                    intentLaunch.launch(intentGallery);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         });
     }
 
     private void onReport(NavController navController) {
 
-        String victim = User.name;
+        String victim = how;
         String incident = textFeatureReportInput.getText().toString();
         String details = descripcionText.getText().toString();
         String address = addressText.getText().toString();
+        String imageReportPath;
         //latitude, longitude , reportImage
-        Save saveFile = new Save();
-        String imageReportPath = saveFile.SaveImage(getContext(), finalImage);
+        if (finalImage != null){
+            Save saveFile = new Save();
+            imageReportPath = saveFile.SaveImage(getContext(), finalImage);
+        }else{
+            Uri path = Uri.parse("android.resource://safecity/" + R.drawable.app_city_icon_layer);
+            imageReportPath = path.toString();
+        }
 
+        Log.i(getTag(), "Imagen : "+String.valueOf(imageReportPath));
         if(details.isEmpty()){
             descripcionText.setError("Campo descripción no debe estar vacío.");
         }else if (address.isEmpty()){
@@ -268,17 +285,18 @@ public class ReportFormFragment extends Fragment {
         RequestBody latitudeBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude);
         RequestBody userId = RequestBody.create(MediaType.parse("multipart/form-data"), User.id);
 
+        Log.i(getTag(), "Victima"+victim);
         // Preparacion de la imagen
         MultipartBody.Part profilePic = null;
-        Log.i(getTag(), "Parte 1 de subida");
+
         if(imageReportPath != null){
             File file = new File(imageReportPath);
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             profilePic = MultipartBody.Part.createFormData("imageReport", file.getName(), requestFile);
-            Log.i(getTag(), "Parte 2 de subida");
+
         }
+
         //imagen preparada
-        Log.i(getTag(), "Parte 3 de subida");
         Call<FormIncident> call = service.executeSendIncident(victimBody, incidentBody, detailsBody,
                 longitudeBody,latitudeBody, userId,profilePic);
 
@@ -292,6 +310,7 @@ public class ReportFormFragment extends Fragment {
                             .setMessage("Se envió el reporte de incidencia correctamente")
                             .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                             .show();
+                    navController.navigate(R.id.nav_home);
                 }
                 else{
                     Toast.makeText(getContext(), "No se pudo enviar el formulario", Toast.LENGTH_SHORT).show();
@@ -304,8 +323,8 @@ public class ReportFormFragment extends Fragment {
                 Log.d(getTag(), "onFailure: " + t);
             }
         });
-        //latitude, longitude , reportImage
-        navController.navigate(R.id.nav_home);
+
+
     }
 
     private boolean allPermissionsGranted() {

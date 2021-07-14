@@ -5,9 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class ReportFeatureFragment extends Fragment {
 
     private ProgressBar progressBar;
+    private String how;
     // URl image
 
     public static final String BASE_URL = "https://images.unsplash.com/";
@@ -62,6 +65,15 @@ public class ReportFeatureFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getParentFragmentManager().setFragmentResultListener("id", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                how = bundle.getString("id");
+
+                Log.i(getTag(), "El incidente le sucede: "+how);
+            }
+        });
 
     }
 
@@ -128,12 +140,12 @@ public class ReportFeatureFragment extends Fragment {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(otroCasosImage);
 
-        agresionButton.setOnClickListener(v -> onReportForm(navController, "Agresion"));
-        desaparecidoButton.setOnClickListener(v -> onReportForm(navController, "Persona Perdida"));
-        incendioButton.setOnClickListener(v -> onReportForm(navController, "Incendio"));
-        maltratoButton.setOnClickListener(v -> onReportForm(navController, "Maltrato Familiar"));
-        roboButton.setOnClickListener(v -> onReportForm(navController, "Robo"));
-        otrosCasosButton.setOnClickListener(v -> onReportForm(navController, "Otros Casos"));
+        agresionButton.setOnClickListener(v -> onReportForm(navController, how+",Agresion"));
+        desaparecidoButton.setOnClickListener(v -> onReportForm(navController, how+",Persona Perdida"));
+        incendioButton.setOnClickListener(v -> onReportForm(navController, how+",Incendio"));
+        maltratoButton.setOnClickListener(v -> onReportForm(navController, how+",Maltrato Familiar"));
+        roboButton.setOnClickListener(v -> onReportForm(navController, how+",Robo"));
+        otrosCasosButton.setOnClickListener(v -> onReportForm(navController, how+",Otros Casos"));
 
     }
 
