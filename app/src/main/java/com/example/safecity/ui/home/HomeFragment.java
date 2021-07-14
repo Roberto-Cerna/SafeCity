@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +35,14 @@ import com.example.safecity.connection.user.DefaultResult;
 import com.example.safecity.data.user.User;
 import com.example.safecity.databinding.FragmentHomeBinding;
 import com.example.safecity.ui.incident_report.IncidentReportFragment;
+import com.example.safecity.ui.login.LoginActivity;
 import com.example.safecity.ui.login.NewPassword;
 import com.google.android.gms.location.LocationListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,10 +111,38 @@ public class HomeFragment extends Fragment implements LocationListener {
         final NavController navController = Navigation.findNavController(view);
 
         sosButton.setOnClickListener(v -> showSosDialog());
+        sosButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(intent, 10);
+                }else{
+                    Toast.makeText(getContext(), "Su dispositivo no soporta uso del micrófono", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
         reportarButton.setOnClickListener(v -> onReportClicked(navController));
         sosCancelarButton.setOnClickListener(v -> onCancelar());
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 10:
+                if(resultCode == -1 && data != null){
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if(result.get(0).equals("ayuda")){
+                        showSosDialog();
+                    }
+                }
+                break;
+        }
+    }
 
     @Override
     public void onDestroyView() {
