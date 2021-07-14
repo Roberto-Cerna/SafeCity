@@ -9,24 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.safecity.R;
-import com.example.safecity.connection.MainRetrofit;
-import com.example.safecity.connection.user.DeleteEmergencyContactsBody;
-import com.example.safecity.connection.user.DeleteEmergencyContactsResult;
-import com.example.safecity.connection.user.EmergencyContactsResult;
 import com.example.safecity.data.user.User;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class EmergencyContactsListAdapter extends ArrayAdapter<EmergencyContact> {
 

@@ -33,10 +33,10 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String name = getItem(position).name;
-        String type = getItem(position).type;
-        boolean isSeen = getItem(position).isSeen;
-        String time = getItem(position).time;
+        String name = getItem(position).victim;
+        String type = getItem(position).incident;
+        //boolean isSeen = getItem(position).isSeen;
+        String time = Double.toString(getItem(position).daysAgo);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
@@ -48,7 +48,7 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
 
         reportListItemName.setText(name);
         reportListItemType.setText(type);
-        reportListItemIcon.setVisibility((isSeen) ? View.INVISIBLE : View.VISIBLE);
+        //reportListItemIcon.setVisibility((isSeen) ? View.INVISIBLE : View.VISIBLE);
         reportListItemTime.setText(time);
 
         return convertView;

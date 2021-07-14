@@ -1,11 +1,5 @@
 package com.example.safecity.connection.user;
 
-import com.example.safecity.ui.emergency_contacts.EmergencyContact;
-import com.example.safecity.ui.login.LoginResult;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -20,7 +14,7 @@ public interface UserAPI {
     // Req: -
     // Returns: Info of user
     @GET("user/info/{id}")
-    Call<InfoResult> getInfo(@Path("id") String id);
+    Call<GetInfoResult> getInfo(@Path("id") String id);
 
     // Update User's Profile
     // Parameters: Id of user
@@ -42,7 +36,7 @@ public interface UserAPI {
     // // Req: -
     // // Returns: Array of emergency contacts of user
     @GET("user/emergency_contacts/{id}")
-    Call<EmergencyContactsResult> getEmergencyContacts(@Path("id") String id);
+    Call<GetEmergencyContactsResult> getEmergencyContacts(@Path("id") String id);
 
 
     // // Delete Emergency Contact
@@ -51,6 +45,7 @@ public interface UserAPI {
     // // Returns: Message of the process
     @PUT("user/delete_emergency_contacts/{id}")
     Call<DeleteEmergencyContactsResult> deleteEmergencyContacts(@Path("id") String id, @Body DeleteEmergencyContactsBody deleteEmergencyContactsBody);
+
 
     // // Get reports sent to the user
     // // Parameters: Id of user

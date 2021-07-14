@@ -1,7 +1,5 @@
 package com.example.safecity.ui.new_emergency_contact;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +17,7 @@ import android.widget.Toast;
 import com.example.safecity.R;
 import com.example.safecity.connection.MainRetrofit;
 import com.example.safecity.connection.user.DefaultResult;
-import com.example.safecity.connection.user.EmergencyContactsResult;
+import com.example.safecity.connection.user.GetEmergencyContactsResult;
 import com.example.safecity.connection.user.PostEmergencyContactBody;
 import com.example.safecity.data.user.User;
 import com.example.safecity.databinding.NewEmergencyContactFragmentBinding;
@@ -76,14 +74,14 @@ public class NewEmergencyContactFragment extends Fragment {
                                 DefaultResult defaultResult = response.body();
                                 assert defaultResult != null;
                                 Toast.makeText(requireContext(), defaultResult.getMsg(), Toast.LENGTH_SHORT).show();
-                                Call<EmergencyContactsResult> insideCall = MainRetrofit.userAPI.getEmergencyContacts(User.id);
-                                insideCall.enqueue(new Callback<EmergencyContactsResult>() {
+                                Call<GetEmergencyContactsResult> insideCall = MainRetrofit.userAPI.getEmergencyContacts(User.id);
+                                insideCall.enqueue(new Callback<GetEmergencyContactsResult>() {
                                     @Override
-                                    public void onResponse(@NotNull Call<EmergencyContactsResult> call, @NotNull Response<EmergencyContactsResult> response) {
+                                    public void onResponse(@NotNull Call<GetEmergencyContactsResult> call, @NotNull Response<GetEmergencyContactsResult> response) {
                                         if(response.code() == 200) {
-                                            EmergencyContactsResult emergencyContactsResult = response.body();
-                                            assert emergencyContactsResult != null;
-                                            User.emergencyContacts = emergencyContactsResult.getEmergencyContacts();
+                                            GetEmergencyContactsResult getEmergencyContactsResult = response.body();
+                                            assert getEmergencyContactsResult != null;
+                                            User.emergencyContacts = getEmergencyContactsResult.getEmergencyContacts();
                                             NavController navController = Navigation.findNavController(requireView());
                                             navController.navigate(R.id.nav_emergency_contacts);
                                         }
@@ -93,14 +91,14 @@ public class NewEmergencyContactFragment extends Fragment {
                                     }
 
                                     @Override
-                                    public void onFailure(@NotNull Call<EmergencyContactsResult> call, @NotNull Throwable t) {
+                                    public void onFailure(@NotNull Call<GetEmergencyContactsResult> call, @NotNull Throwable t) {
                                         Toast.makeText(requireContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                             else {
                                 if (response.code() == 300) {
-                                    Toast.makeText(requireContext(), "Ya existe un contacto con este número", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Ya tiene un contacto con este número", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(requireContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                                 }

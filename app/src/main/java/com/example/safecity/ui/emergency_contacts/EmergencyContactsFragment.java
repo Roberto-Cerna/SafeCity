@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +28,7 @@ import com.example.safecity.R;
 import com.example.safecity.connection.MainRetrofit;
 import com.example.safecity.connection.user.DeleteEmergencyContactsBody;
 import com.example.safecity.connection.user.DeleteEmergencyContactsResult;
-import com.example.safecity.connection.user.EmergencyContactsResult;
+import com.example.safecity.connection.user.GetEmergencyContactsResult;
 import com.example.safecity.databinding.EmergencyContactsFragmentBinding;
 import com.example.safecity.data.user.User;
 
@@ -132,14 +130,14 @@ public class EmergencyContactsFragment extends Fragment {
             }
         });
 
-        Call<EmergencyContactsResult> call = MainRetrofit.userAPI.getEmergencyContacts(User.id);
-        call.enqueue(new Callback<EmergencyContactsResult>() {
+        Call<GetEmergencyContactsResult> call = MainRetrofit.userAPI.getEmergencyContacts(User.id);
+        call.enqueue(new Callback<GetEmergencyContactsResult>() {
             @Override
-            public void onResponse(@NotNull Call<EmergencyContactsResult> call, @NotNull Response<EmergencyContactsResult> response) {
+            public void onResponse(@NotNull Call<GetEmergencyContactsResult> call, @NotNull Response<GetEmergencyContactsResult> response) {
                 if(response.code() == 200) {
-                    EmergencyContactsResult emergencyContactsResult = response.body();
-                    assert emergencyContactsResult != null;
-                    User.emergencyContacts = emergencyContactsResult.getEmergencyContacts();
+                    GetEmergencyContactsResult getEmergencyContactsResult = response.body();
+                    assert getEmergencyContactsResult != null;
+                    User.emergencyContacts = getEmergencyContactsResult.getEmergencyContacts();
                     emergencyContactsListAdapter = new EmergencyContactsListAdapter(requireContext(),
                             R.layout.list_item_emergency_contact, User.emergencyContacts);
                     emergencyContactsListView.setAdapter(emergencyContactsListAdapter);
@@ -150,7 +148,7 @@ public class EmergencyContactsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<EmergencyContactsResult> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<GetEmergencyContactsResult> call, @NotNull Throwable t) {
                 Toast.makeText(requireContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
             }
         });

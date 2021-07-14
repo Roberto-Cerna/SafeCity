@@ -11,8 +11,6 @@ public class User {
     public static String email = "piero@bajo.pe";
     public static String phone = "999888777";
     public static String id = "123";
-    public static ArrayList<EmergencyContact> emergencyContacts = new ArrayList<>(Arrays.asList(
-            new EmergencyContact("Edwin Yauyo", "987654321"),
-            new EmergencyContact("Donald Kun", "999999999"),
-            new EmergencyContact("Edwin Yauyo", "987654321")));
+    public static ArrayList<EmergencyContact> emergencyContacts = new ArrayList<>();
+    //public static Report attendingReport;
 }

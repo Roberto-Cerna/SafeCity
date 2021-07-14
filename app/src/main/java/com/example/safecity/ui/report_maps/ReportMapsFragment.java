@@ -21,6 +21,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.safecity.R;
+import com.example.safecity.connection.MainRetrofit;
+import com.example.safecity.connection.report.GetRecentReportsResult;
+import com.example.safecity.data.reports_list.Report;
+import com.example.safecity.data.reports_list.ReportsList;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,11 +34,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Objects;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ReportMapsFragment extends Fragment {
 
+    public static boolean attending = false;
     LocationManager locationManager;
     LocationListener locationListener;
     LatLng userLatLng;
@@ -65,7 +72,15 @@ public class ReportMapsFragment extends Fragment {
                     userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
                                 .position(userLatLng).icon(BitmapDescriptorFactory
-                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Usted está aquí"));
+
+                    for(Report report : ReportsList.reports_list) {
+                        LatLng reportLatLng = new LatLng(Double.parseDouble(report.locationLatitude),
+                                Double.parseDouble(report.locationLongitude));
+                        googleMap.addMarker(new MarkerOptions()
+                                    .position(reportLatLng).icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
                 }
 
                 @Override
@@ -114,6 +129,32 @@ public class ReportMapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        if(attending) {
+            //COMPLETAR CUANDO SE ATIENDE UBICACION
+        }
+        else {
+            Call<GetRecentReportsResult> call = MainRetrofit.reportAPI.getLastNIncidents("3");
+            call.enqueue(new Callback<GetRecentReportsResult>() {
+                @Override
+                public void onResponse(Call<GetRecentReportsResult> call, Response<GetRecentReportsResult> response) {
+                    if(response.code() == 200) {
+                        GetRecentReportsResult getRecentReportsResult = response.body();
+                        assert getRecentReportsResult != null;
+                        ReportsList.reports_list = getRecentReportsResult.getRecentReports();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetRecentReportsResult> call, Throwable t) {
+                    Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         return inflater.inflate(R.layout.fragment_report_maps, container, false);
     }
 
@@ -138,4 +179,9 @@ public class ReportMapsFragment extends Fragment {
             }
         }
     }
+}
+
+class ReportLocation {
+    public String latitude;
+    public String longitude;
 }

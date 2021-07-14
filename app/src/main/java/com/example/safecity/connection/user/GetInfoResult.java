@@ -3,7 +3,7 @@ package com.example.safecity.connection.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class InfoResult {
+public class GetInfoResult {
     @SerializedName("name")
     @Expose
     private String name;

@@ -6,7 +6,7 @@ import com.example.safecity.ui.emergency_contacts.EmergencyContact;
 
 import java.util.ArrayList;
 
-public class EmergencyContactsResult {
+public class GetEmergencyContactsResult {
     @SerializedName("emergencyContacts")
     @Expose
     private ArrayList<EmergencyContact> emergencyContacts;
