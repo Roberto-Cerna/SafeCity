@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         headerNameTextView = navigationView.getHeaderView(0).findViewById(R.id.headerNameTextView);
         headerEmailTextView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailTextView);
 
+        headerNameTextView.setText(User.name);
+        headerEmailTextView.setText(User.email);
+
         logoutBotton = navigationView.findViewById(R.id.logoutButton);
         logoutBotton.setOnClickListener(v -> onLogout(preferences));
     }
