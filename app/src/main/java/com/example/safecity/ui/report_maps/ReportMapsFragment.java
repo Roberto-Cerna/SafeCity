@@ -34,6 +34,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.concurrent.Executor;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,10 +46,12 @@ import retrofit2.Response;
 public class ReportMapsFragment extends Fragment {
 
     public static boolean attending = false;
+    public static boolean firstTime = true;
     LocationManager locationManager;
     LocationListener locationListener;
     LatLng userLatLng;
     Marker currentLocationMarker;
+    Location lastKnownLocation;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -66,6 +72,7 @@ public class ReportMapsFragment extends Fragment {
             locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
+                    googleMap.clear();
                     if(currentLocationMarker != null) {
                         currentLocationMarker.remove();
                     }
@@ -73,13 +80,34 @@ public class ReportMapsFragment extends Fragment {
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
                                 .position(userLatLng).icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Usted está aquí"));
+                    if(lastKnownLocation == null) {
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 16));
+                        firstTime = false;
+                    }
 
                     for(Report report : ReportsList.reports_list) {
+                        String title = report.incident;
+                        Double daysAgo = report.daysAgo;
+                        if(daysAgo >= 1) {
+                            title += ", hace " + daysAgo.intValue() + " día(s)";
+                        }
+                        else {
+                            double hoursAgo = 24 * daysAgo;
+                            if(hoursAgo >= 1) {
+
+                                title += ", hace " + (int) (hoursAgo) + " hora(s)";
+                            }
+                            else {
+                                double minutesAgo = 60 * hoursAgo;
+                                title += ", hace " + (int) minutesAgo + " minuto(s)";
+                            }
+                        }
+
                         LatLng reportLatLng = new LatLng(Double.parseDouble(report.locationLatitude),
                                 Double.parseDouble(report.locationLongitude));
                         googleMap.addMarker(new MarkerOptions()
                                     .position(reportLatLng).icon(BitmapDescriptorFactory
-                                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)).title(title));
                     }
                 }
 
@@ -108,8 +136,8 @@ public class ReportMapsFragment extends Fragment {
 
             //Setting location permissions
             if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+                lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if(lastKnownLocation != null) {
                     userLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
@@ -134,23 +162,35 @@ public class ReportMapsFragment extends Fragment {
             //COMPLETAR CUANDO SE ATIENDE UBICACION
         }
         else {
-            Call<GetRecentReportsResult> call = MainRetrofit.reportAPI.getLastNIncidents("3");
-            call.enqueue(new Callback<GetRecentReportsResult>() {
+            new GetRecentReportsExecutor().execute(new Runnable() {
                 @Override
-                public void onResponse(Call<GetRecentReportsResult> call, Response<GetRecentReportsResult> response) {
-                    if(response.code() == 200) {
-                        GetRecentReportsResult getRecentReportsResult = response.body();
-                        assert getRecentReportsResult != null;
-                        ReportsList.reports_list = getRecentReportsResult.getRecentReports();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                public void run() {
+                    while(!attending) {
+                        Call<GetRecentReportsResult> call = MainRetrofit.reportAPI.getLastNIncidents("2");
+                        call.enqueue(new Callback<GetRecentReportsResult>() {
+                            @Override
+                            public void onResponse(Call<GetRecentReportsResult> call, Response<GetRecentReportsResult> response) {
+                                if(response.code() == 200) {
+                                    GetRecentReportsResult getRecentReportsResult = response.body();
+                                    assert getRecentReportsResult != null;
+                                    ReportsList.reports_list = getRecentReportsResult.getRecentReports();
+                                }
+                                else {
+                                    Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                @Override
-                public void onFailure(Call<GetRecentReportsResult> call, Throwable t) {
-                    Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Call<GetRecentReportsResult> call, Throwable t) {
+                                Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             });
         }
@@ -175,13 +215,14 @@ public class ReportMapsFragment extends Fragment {
 
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
             }
         }
     }
-}
 
-class ReportLocation {
-    public String latitude;
-    public String longitude;
+    static class GetRecentReportsExecutor implements Executor {
+        public void execute(Runnable r) {
+            new Thread(r).start();
+        }
+    }
 }

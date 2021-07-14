@@ -1,6 +1,5 @@
 package com.example.safecity.data.reports_list;
 
-import org.json.JSONObject;
 
 public class Report {
     public String id;
