@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,15 +32,12 @@ import androidx.navigation.Navigation;
 
 import com.example.safecity.R;
 import com.example.safecity.data.user.User;
-import com.example.safecity.ui.login.LoginActivity;
-import com.example.safecity.ui.login.LoginResult;
 import com.example.safecity.ui.login.RetrofitInterface;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteFragment;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -49,22 +45,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReportFormFragment extends Fragment {
 
@@ -263,7 +253,7 @@ public class ReportFormFragment extends Fragment {
             Save saveFile = new Save();
             imageReportPath = saveFile.SaveImage(getContext(), finalImage);
         }else{
-            Uri path = Uri.parse("android.resource://safecity/" + R.drawable.app_city_icon_layer);
+            Uri path = Uri.parse("android.resource://"+ getActivity().getPackageName() +"/" + R.drawable.app_city_icon_layer);
             imageReportPath = path.toString();
         }
 
@@ -285,7 +275,7 @@ public class ReportFormFragment extends Fragment {
         RequestBody latitudeBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude);
         RequestBody userId = RequestBody.create(MediaType.parse("multipart/form-data"), User.id);
 
-        Log.i(getTag(), "Victima"+victim);
+        Log.i(getTag(), "Victima "+victim);
         // Preparacion de la imagen
         MultipartBody.Part profilePic = null;
 
@@ -293,16 +283,16 @@ public class ReportFormFragment extends Fragment {
             File file = new File(imageReportPath);
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             profilePic = MultipartBody.Part.createFormData("imageReport", file.getName(), requestFile);
-
+            Log.i(getTag(), "gg");
         }
 
         //imagen preparada
-        Call<FormIncident> call = service.executeSendIncident(victimBody, incidentBody, detailsBody,
+        Call<Void> call = service.executeSendIncident(victimBody, incidentBody, detailsBody,
                 longitudeBody,latitudeBody, userId,profilePic);
 
-        call.enqueue(new Callback<FormIncident>() {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<FormIncident> call, Response<FormIncident> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
 
                     new AlertDialog.Builder(getContext())
@@ -318,9 +308,8 @@ public class ReportFormFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<FormIncident> call, Throwable t) {
-                Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT);
-                Log.d(getTag(), "onFailure: " + t);
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getContext(), "Error, vuelva a intentar", Toast.LENGTH_SHORT).show();
             }
         });
 

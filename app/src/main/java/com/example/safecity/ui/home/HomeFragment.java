@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment implements LocationListener {
     private void performSos() {
 
         Log.i(getTag(),"Coordenada del boton: "+ latitude+"," + longitude);
-        String message = User.name+" necesita ayuda, esta es su ubicación :"+"https://www.google.es/maps?q="+latitude+","+longitude;
+        String message = User.name+" necesita ayuda, esta es su ubicación :"+"https://www.google.es/maps?q="+latitude+","+longitude+" ";
 
         Log.i(getTag(), message);
         SendMessage sendMessage = new SendMessage(message);

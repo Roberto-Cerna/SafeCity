@@ -28,7 +28,7 @@ public interface RetrofitInterface {
 
     @Multipart
     @POST("report-incident/form")
-    Call<FormIncident> executeSendIncident(@Part("victim") RequestBody victim,
+    Call<Void> executeSendIncident(@Part("victim") RequestBody victim,
                                            @Part("incident") RequestBody incident,
                                            @Part("details") RequestBody details,
                                            @Part("longitude") RequestBody longitude,
