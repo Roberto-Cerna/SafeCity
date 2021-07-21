@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.safecity.BuildConfig;
 import com.example.safecity.R;
 import com.example.safecity.data.user.User;
 import com.example.safecity.ui.login.RetrofitInterface;
@@ -65,7 +68,7 @@ public class ReportFormFragment extends Fragment {
     Button denunciarButton;
     TextInputEditText descripcionText;
     TextInputEditText addressText;
-
+    private ProgressBar progressBar;
     Bitmap finalImage;
 
     private int REQUEST_CODE_PERMISSIONS = 101;
@@ -188,6 +191,7 @@ public class ReportFormFragment extends Fragment {
         reportImage = view.findViewById(R.id.ReportImage);
         descripcionText = view.findViewById(R.id.detailInput);
         addressText = view.findViewById(R.id.addressInput);
+        progressBar = view.findViewById(R.id.progressBar);
 
         //Iniciacion place
         Places.initialize(getContext().getApplicationContext(), API_KEY);
@@ -247,24 +251,28 @@ public class ReportFormFragment extends Fragment {
         String incident = textFeatureReportInput.getText().toString();
         String details = descripcionText.getText().toString();
         String address = addressText.getText().toString();
-        String imageReportPath;
+        String imageReportPath ;
         //latitude, longitude , reportImage
         if (finalImage != null){
             Save saveFile = new Save();
             imageReportPath = saveFile.SaveImage(getContext(), finalImage);
-        }else{
-            Uri path = Uri.parse("android.resource://"+ getActivity().getPackageName() +"/" + R.drawable.app_city_icon_layer);
-            imageReportPath = path.toString();
+
+            if(details.isEmpty()){
+                descripcionText.setError("Campo descripción no debe estar vacío.");
+            }else if (address.isEmpty()){
+                addressText.setError("Campo lugar de incidente no debe estar vacío.");
+            }else{
+                sendForm(victim, incident, details,imageReportPath, navController);
+            }
+
+        }else {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Falta la prueba")
+                    .setMessage("Debe ingresar una prueba ya sea una imagen o tomar foto")
+                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .show();
         }
 
-        Log.i(getTag(), "Imagen : "+String.valueOf(imageReportPath));
-        if(details.isEmpty()){
-            descripcionText.setError("Campo descripción no debe estar vacío.");
-        }else if (address.isEmpty()){
-            addressText.setError("Campo lugar de incidente no debe estar vacío.");
-        }else {
-            sendForm(victim, incident, details,imageReportPath, navController);
-        }
     }
 
     private void sendForm(String victim, String incident, String details,String imageReportPath, NavController navController) {
@@ -300,7 +308,7 @@ public class ReportFormFragment extends Fragment {
                             .setMessage("Se envió el reporte de incidencia correctamente")
                             .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                             .show();
-                    navController.navigate(R.id.nav_home);
+                    performLogin(navController);
                 }
                 else{
                     Toast.makeText(getContext(), "No se pudo enviar el formulario", Toast.LENGTH_SHORT).show();
@@ -309,11 +317,26 @@ public class ReportFormFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getContext(), "Error, vuelva a intentar", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getContext(), "Debe insertar una prueba para poder enviar la denuncia", Toast.LENGTH_SHORT).show();
             }
         });
 
 
+    }
+
+    private void performLogin(NavController navController) {
+
+        descripcionText.setEnabled(false);
+        addressText.setEnabled(false);
+        denunciarButton.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            //your code
+            navController.navigate(R.id.nav_home);;
+        }, 2000);
     }
 
     private boolean allPermissionsGranted() {
