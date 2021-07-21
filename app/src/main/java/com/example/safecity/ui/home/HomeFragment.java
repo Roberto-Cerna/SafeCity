@@ -253,7 +253,7 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     private void settingMessage() {
         new AlertDialog.Builder(getContext())
-                .setMessage("Compruebe su conexión a internet o GPS")
+                .setMessage("Tiene que dar permiso de ubicación a la aplicación.")
                 .setPositiveButton("Configuración",
                         new DialogInterface.OnClickListener() {
                             @Override
