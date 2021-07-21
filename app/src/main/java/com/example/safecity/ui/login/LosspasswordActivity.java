@@ -190,7 +190,7 @@ public class LosspasswordActivity extends AppCompatActivity {
             String message = Integer.toString(code);
 
 
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
             Intent intent = new Intent(this,RecoveryCodeConfirmation.class);
 
             SmsManager sms = SmsManager.getDefault();
