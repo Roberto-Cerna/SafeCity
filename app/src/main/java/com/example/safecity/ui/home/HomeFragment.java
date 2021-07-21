@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -61,10 +62,9 @@ public class HomeFragment extends Fragment implements LocationListener {
     private int REQUEST_CODE_PERMISSIONS = 101;
     private final String[] REQUIRED_PERMISSIONS = new String[]{
             "android.permission.ACCESS_FINE_LOCATION",
-
     };
 
-    private double TIME =  5 * 60 * 1000;
+    private double TIME = 60 * 1000;
 
     double latitude;
     double longitude;
@@ -163,29 +163,37 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     private void performSos() {
 
-        Log.i(getTag(),"Coordenada del boton: "+ latitude+"," + longitude);
-        String message = User.name+" necesita ayuda, esta es su ubicación :"+"https://www.google.es/maps?q="+latitude+","+longitude+" ";
+        if(latitude != 0 && longitude != 0){
+            Log.i(getTag(),"Coordenada del boton: "+ latitude+"," + longitude);
+            String message = User.name+" necesita ayuda, esta es su ubicación :"+"https://www.google.es/maps?q="+latitude+","+longitude+" ";
 
-        Log.i(getTag(), message);
-        SendMessage sendMessage = new SendMessage(message);
-        Call<Void> call = MainRetrofit.reportAPI.postSendMessage(User.id, sendMessage);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 200){
-                    Toast.makeText(getContext(), "Se envió la solicitud de ayuda.",Toast.LENGTH_LONG ).show();
-                    sosButton.setVisibility(View.INVISIBLE);
-                    sosCancelarButton.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(getContext(), "No se pudo enviar la solicitud, intente nuevamente.",Toast.LENGTH_LONG ).show();
+            Log.i(getTag(), message);
+            SendMessage sendMessage = new SendMessage(message);
+            Call<Void> call = MainRetrofit.reportAPI.postSendMessage(User.id, sendMessage);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() == 200){
+                        Toast.makeText(getContext(), "Se envió la solicitud de ayuda.",Toast.LENGTH_LONG ).show();
+                        sosButton.setVisibility(View.INVISIBLE);
+                        sosCancelarButton.setVisibility(View.VISIBLE);
+                    }else {
+                        Toast.makeText(getContext(), "No se pudo enviar la solicitud, intente nuevamente.",Toast.LENGTH_LONG ).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                performSos();
+            }, 60 *1000);
+        }
+
     }
 
     @Override
@@ -245,7 +253,6 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     private void settingMessage() {
         new AlertDialog.Builder(getContext())
-                .setTitle("ERROR")
                 .setMessage("Compruebe su conexión a internet o GPS")
                 .setPositiveButton("Configuración",
                         new DialogInterface.OnClickListener() {
@@ -258,24 +265,5 @@ public class HomeFragment extends Fragment implements LocationListener {
                 .setNegativeButton("cancelar", (((dialog, which) -> dialog.dismiss())))
                 .show();
     }
-
-//    private  final LocationListener locationListener = new LocationListener() {
-//        @Override
-//        public void onLocationChanged(Location location) {
-//            latitude =  location.getLatitude();
-//            longitude = location.getLongitude();
-//
-//            runOnYuThread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-////                    location.setLatitude(latitude);
-////                    location.setLongitude(longitude);
-//                    Log.i(getTag(),"Coordenada: "+ location.getLatitude()+"," + location.getLongitude());
-//                }
-//            });
-//
-//        }
-//    } ;
 
 }

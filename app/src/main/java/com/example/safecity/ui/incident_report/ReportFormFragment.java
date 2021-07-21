@@ -303,11 +303,6 @@ public class ReportFormFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
 
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("Reporte enviado")
-                            .setMessage("Se envió el reporte de incidencia correctamente")
-                            .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                            .show();
                     performLogin(navController);
                 }
                 else{
@@ -317,11 +312,9 @@ public class ReportFormFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
                 Toast.makeText(getContext(), "Debe insertar una prueba para poder enviar la denuncia", Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
@@ -335,7 +328,12 @@ public class ReportFormFragment extends Fragment {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             //your code
-            navController.navigate(R.id.nav_home);;
+            navController.navigate(R.id.nav_home);
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Reporte enviado")
+                    .setMessage("Se envió el reporte de incidencia correctamente")
+                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .show();
         }, 2000);
     }
 
