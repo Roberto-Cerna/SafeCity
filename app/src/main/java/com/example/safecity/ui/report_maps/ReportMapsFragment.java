@@ -1,11 +1,15 @@
 package com.example.safecity.ui.report_maps;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +19,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,18 +59,10 @@ public class ReportMapsFragment extends Fragment {
     LatLng userLatLng;
     Marker currentLocationMarker;
     Location lastKnownLocation;
+    boolean flag = false;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
@@ -75,42 +72,41 @@ public class ReportMapsFragment extends Fragment {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
                     googleMap.clear();
-                    if(currentLocationMarker != null) {
+                    if (currentLocationMarker != null) {
                         currentLocationMarker.remove();
                     }
                     userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
-                                .position(userLatLng).icon(BitmapDescriptorFactory
-                                        .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("Usted está aquí"));
-                    if(lastKnownLocation == null) {
+                            .position(userLatLng).icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("Usted está aquí"));
+                    if (!flag) {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 16));
+                        flag = true;
                     }
 
-                    if(attending) {
+                    if (attending) {
                         LatLng attendingLatLng = new LatLng(Double.parseDouble(AttendingReport.locationLatitude), Double.parseDouble(AttendingReport.locationLongitude));
                         googleMap.addMarker(new MarkerOptions()
                                 .position(attendingLatLng).icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title(AttendingReport.victim));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(attendingLatLng, 14));
-                    }
-                    else {
-                        for(Report report : ReportsList.reports_list) {
+                    } else {
+                        for (Report report : ReportsList.reports_list) {
                             float color;
                             String title = report.incident;
                             Double daysAgo = report.daysAgo;
-                            if(daysAgo >= 1) {
+                            if (daysAgo >= 1) {
                                 title += ", hace " + daysAgo.intValue() + " día(s)";
                                 color = BitmapDescriptorFactory.HUE_GREEN;
-                            }
-                            else {
+                            } else {
                                 double hoursAgo = 24 * daysAgo;
-                                if(hoursAgo >= 1) {
+                                if (hoursAgo >= 1) {
                                     title += ", hace " + (int) (hoursAgo) + " hora(s)";
                                     color = BitmapDescriptorFactory.HUE_YELLOW;
-                                }
-                                else {
+                                } else {
                                     double minutesAgo = 60 * hoursAgo;
-                                    title += ", hace " + (int) minutesAgo + " minuto(s)";
+                                    if (minutesAgo == 0) title += ", hace unos instantes";
+                                    else title += ", hace " + (int) minutesAgo + " minuto(s)";
                                     color = BitmapDescriptorFactory.HUE_RED;
                                 }
                             }
@@ -154,20 +150,21 @@ public class ReportMapsFragment extends Fragment {
 
             };
 
-            //Setting location permissions
-            if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
                 lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(lastKnownLocation != null) {
+                if (lastKnownLocation != null) {
                     userLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                     currentLocationMarker = googleMap.addMarker(new MarkerOptions()
                             .position(userLatLng).icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 16));
                 }
-            }
-            else {
-                ActivityCompat.requestPermissions(requireActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                requestPermissionLauncher.launch(
+                        Manifest.permission.ACCESS_FINE_LOCATION);
             }
         }
     };
@@ -178,21 +175,20 @@ public class ReportMapsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        if(!attending) {
+        if (!attending) {
             new GetRecentReportsExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
-                    while(!attending) {
+                    while (!attending) {
                         Call<GetRecentReportsResult> call = MainRetrofit.reportAPI.getLastNIncidents("2");
                         call.enqueue(new Callback<GetRecentReportsResult>() {
                             @Override
                             public void onResponse(Call<GetRecentReportsResult> call, Response<GetRecentReportsResult> response) {
-                                if(response.code() == 200) {
+                                if (response.code() == 200) {
                                     GetRecentReportsResult getRecentReportsResult = response.body();
                                     assert getRecentReportsResult != null;
                                     ReportsList.reports_list = getRecentReportsResult.getRecentReports();
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(getContext(), "Ocurrrió un error, vuelva a intentarlo más tarde", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -203,7 +199,7 @@ public class ReportMapsFragment extends Fragment {
                             }
                         });
                         try {
-                            Thread.sleep(10000);
+                            Thread.sleep(5000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -226,16 +222,13 @@ public class ReportMapsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
-            }
-        }
-    }
+    @SuppressLint("MissingPermission")
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
+                }
+            });
 
     static class GetRecentReportsExecutor implements Executor {
         public void execute(Runnable r) {

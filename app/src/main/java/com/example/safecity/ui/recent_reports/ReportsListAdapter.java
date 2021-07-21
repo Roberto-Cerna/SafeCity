@@ -63,7 +63,9 @@ public class ReportsListAdapter extends ArrayAdapter<Report> {
             }
             else {
                 double minutesAgo = 60 * hoursAgo;
-                report_time += (int) minutesAgo + " minuto(s)";
+                if (minutesAgo == 0)    report_time += "< 1 min";
+                else    report_time += (int) minutesAgo + " min";
+
             }
         }
 

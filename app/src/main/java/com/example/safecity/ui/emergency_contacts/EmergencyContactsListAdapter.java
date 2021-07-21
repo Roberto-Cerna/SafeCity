@@ -66,6 +66,7 @@ public class EmergencyContactsListAdapter extends ArrayAdapter<EmergencyContact>
                 else {
                     EmergencyContactsFragment.contactPhonesSelection.add(User.emergencyContacts.get(position).phone);
                 }
+                EmergencyContactsFragment.actionMode.setTitle(EmergencyContactsFragment.contactPhonesSelection.size() + " contacto(s) seleccionado(s)");
 
             }
         });
