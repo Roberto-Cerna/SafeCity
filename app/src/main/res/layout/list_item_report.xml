@@ -56,11 +56,12 @@
         android:layout_toEndOf="@id/reportListItemName"
         android:padding="16dp"
         android:scaleType="fitCenter"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_baseline_notifications_24" />
 
     <TextView
         android:id="@+id/reportListItemTime"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_row="1"
         android:layout_rowWeight="1"

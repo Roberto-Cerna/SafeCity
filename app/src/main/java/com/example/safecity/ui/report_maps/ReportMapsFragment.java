@@ -125,6 +125,11 @@ public class ReportMapsFragment extends Fragment {
                 }
 
                 @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
                 public void onProviderDisabled(@NonNull String provider) {
                     final AlertDialog alert = new AlertDialog.Builder(requireContext()).setMessage("Parece que tu Ubicación está deshabilitada, ¿podrías activarla?")
                             .setCancelable(false)
@@ -145,6 +150,8 @@ public class ReportMapsFragment extends Fragment {
                 public void onProviderEnabled(@NonNull String provider) {
 
                 }
+
+
             };
 
             //Setting location permissions
