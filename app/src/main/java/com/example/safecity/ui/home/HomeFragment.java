@@ -253,7 +253,7 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     private void settingMessage() {
         new AlertDialog.Builder(getContext())
-                .setMessage("Tiene que dar permiso de ubicación a la aplicación.")
+                .setMessage("Parece que tu Ubicación está deshabilitada, ¿podrías activarla?")
                 .setPositiveButton("Configuración",
                         new DialogInterface.OnClickListener() {
                             @Override
